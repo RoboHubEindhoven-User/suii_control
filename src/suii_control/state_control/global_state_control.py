@@ -7,7 +7,7 @@
 __author__      = "Zinkeng Thierry"
 
 import rospy
-from sui_control.state_machines import *
+from suii_control.state_machines import *
 
 class GlobalStateControlNode:
     def __init__(self):

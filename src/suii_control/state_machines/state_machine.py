@@ -9,7 +9,7 @@ __author__      = "Zinkeng Thierry"
 
 import os, sys
 # sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath('states'))))
-from sui_control.state_machines import State
+from suii_control.state_machines import State
 
 class Transition(object):
     ''' 

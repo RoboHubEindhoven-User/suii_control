@@ -5,7 +5,7 @@
 
 __author__      = "Zinkeng Thierry"
 
-from sui_control.state_machines import State
+from suii_control.state_machines import State
 
 class BasicManipulationState(State):
     ''' Implements the action and or guard of a state'''

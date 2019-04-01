@@ -9,9 +9,7 @@ __author__      = "Zinkeng Thierry"
 
 import unittest
 import rospy
-from sui_control.state_machines import *
-# from src.state_machine.bnt_state import BasicNavigationState
-# from src.state_machine.bmt_state import BasicManipulationState
+from suii_control.state_machines import *
 
 class StateMachineTest(unittest.TestCase):
 
