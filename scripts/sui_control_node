@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+import rospy
+import sys
+
+from sui_control.state_control import GlobalStateControlNode
+# from sui_control.state_machines import *
+if __name__ == '__main__':
+    node = GlobalStateControlNode()
+    node.main()
