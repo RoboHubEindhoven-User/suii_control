@@ -1,0 +1,160 @@
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Waypoint 6
+    instance_id: 6
+    orientation: !Orientation
+      w: 1.254
+      x: 0.254
+      y: 0.145
+      z: 0.325
+    orientation_id: 4
+    orientation_name: WEST
+    position: !Position
+      x: 0.785
+      y: 0.527
+      z: 7.329
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: PP
+    area_type: 5
+    description: Precision Platform
+    instance_id: 1
+    orientation: !Orientation
+      w: 1.254
+      x: 0.254
+      y: 0.145
+      z: 0.325
+    orientation_id: 1
+    orientation_name: NORTH
+    position: !Position
+      x: 0.548
+      y: 8.527
+      z: 1.329
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 10
+    instance_id: 10
+    orientation: !Orientation
+      w: 1.254
+      x: 0.254
+      y: 0.145
+      z: 0.325
+    orientation_id: 4
+    orientation_name: WEST
+    position: !Position
+      x: 0.125
+      y: 0.527
+      z: 0.329
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 2
+    instance_id: 2
+    orientation: !Orientation
+      w: 1.254
+      x: 0.254
+      y: 0.145
+      z: 0.325
+    orientation_id: 2
+    orientation_name: EAST
+    position: !Position
+      x: 0.852
+      y: 0.527
+      z: 0.975
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 12
+    instance_id: 12
+    orientation: !Orientation
+      w: 1.254
+      x: 0.254
+      y: 0.145
+      z: 0.325
+    orientation_id: 3
+    orientation_name: SOUTH
+    position: !Position
+      x: 0.357
+      y: 1.527
+      z: 0.329
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: SH
+    area_type: 1
+    description: Shelf 2
+    instance_id: 2
+    orientation: !Orientation
+      w: 1.254
+      x: 0.254
+      y: 0.145
+      z: 0.325
+    orientation_id: 2
+    orientation_name: WEST
+    position: !Position
+      x: 0.785
+      y: 0.452
+      z: 0.329
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Waypoint 9
+    instance_id: 9
+    orientation: !Orientation
+      w: 1.254
+      x: 0.254
+      y: 0.145
+      z: 0.325
+    orientation_id: 3
+    orientation_name: SOUTH
+    position: !Position
+      x: 0.753
+      y: 0.527
+      z: 1.329
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 4
+    instance_id: 4
+    orientation: !Orientation
+      w: 1.254
+      x: 0.254
+      y: 0.145
+      z: 0.325
+    orientation_id: 4
+    orientation_name: WEST
+    position: !Position
+      x: 0.159
+      y: 0.527
+      z: 2.329
+  wait_time: !Time
+    nsecs: 0
+    secs: 3

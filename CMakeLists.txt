@@ -9,6 +9,9 @@ project(suii_control)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  std_msgs
+  geometry_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -45,18 +48,19 @@ catkin_python_setup()
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
-## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
-
+ add_message_files(
+   DIRECTORY msg
+   FILES
+   Waypoint.msg
+   WaypointData.msg
+ )
+ 
 ## Generate services in the 'srv' folder
 # add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
+#   DIRECTORY msg
+#  FILES
+#  Waypoint.msg
+#  WaypointData.msg
 # )
 
 ## Generate actions in the 'action' folder
@@ -67,10 +71,11 @@ catkin_python_setup()
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+ generate_messages(
+   DEPENDENCIES
+   std_msgs
+   geometry_msgs
+ )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -106,6 +111,14 @@ catkin_package(
 #  LIBRARIES suii_control
 #  CATKIN_DEPENDS rospy
 #  DEPENDS system_lib
+)
+
+
+catkin_package(
+  CATKIN_DEPENDS
+    message_runtime
+    roscpp
+    #suii_refbox_client/atwork_action
 )
 
 ###########
