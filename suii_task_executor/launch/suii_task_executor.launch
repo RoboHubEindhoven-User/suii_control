@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="suii_task_executor" type="suii_task_executor_node.py"
+          name="suii_task_executor" output="screen">
+    </node>
+</launch>

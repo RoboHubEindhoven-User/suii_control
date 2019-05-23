@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="suii_task_manager" type="suii_task_manager_node.py"
+          name="suii_task_manager" output="screen">
+        <param name="waypoint_path" value="$(find suii_task_manager)/src/suii_task_manager/config/waypoints.yaml"/>
+        <param name="coordinate_path" value="$(find suii_task_manager)/src/suii_task_manager/config/coordinate.yaml"/>
+    </node>
+</launch>

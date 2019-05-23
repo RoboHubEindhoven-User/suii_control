@@ -1,0 +1,2 @@
+Identifier location
+geometry_msgs/Pose pose

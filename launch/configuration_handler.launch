@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <node pkg="suii_control" type="configuration_handler_node.py" name="configuration_handler_node" output="screen">
-          <param name="path" value="$(find suii_control)/src/suii_control/config/navigation_waypoints.yaml"/>
-    </node>
-</launch>

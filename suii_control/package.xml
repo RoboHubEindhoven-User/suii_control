@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>suii_control</name>
+  <version>0.0.0</version>
+  <description>The suii control metapackage</description>
+
+  <maintainer email="info@robohub-eindhoven.nl">robohub</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>suii_refbox_client</exec_depend>
+  <exec_depend>suii_task_manager</exec_depend>
+  <exec_depend>suii_task_executor</exec_depend>
+  <exec_depend>suii_object_manipulation</exec_depend>
+  <exec_depend>demo</exec_depend>
+
+  <export>
+    <metapackage />
+  </export>
+</package>

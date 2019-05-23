@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <node pkg="suii_control" type="suii_control_node"
-          name="suii_control_node" output="screen">
-          <!-- <rosparam file="$(find suii_control)/src/suii_control/config/navigation_waypoints.yaml" command="load" /> -->
-          <param name="path" value="$(find suii_control)/src/suii_control/config/navigation_waypoints.yaml"/>
-    </node>
-</launch>
