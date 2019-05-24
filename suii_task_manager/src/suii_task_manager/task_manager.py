@@ -41,51 +41,9 @@ class TaskManager:
     def format_set_of_tasks (self, task_list, result):
         unique_task_list = task_list.get_unique_source()
 
-    if (len(task_list) > 0):
-        print("\nPicking objects from " + str(len(unique_task_list)) + " source(s)\n")
+        if (len(task_list) > 0):
+            print("\nPicking objects from " + str(len(unique_task_list)) + " source(s)\n")
             
-        std::map<int, std::string>::iterator it = uniqueSrc.begin()
-        while (it != uniqueSrc.end())
-        {
-            print("\nPicking objects from " + it.second + "...\n"
-            formatDrive(it.first, result)                         // drive to first location
-            TaskList pickUp = task_list.getTasksBySrc(it.first)    // get all the tasks with that source
-
-            // Pick up selectively
-            for (unsigned int i = 0 i < pickUp.task_list.size() i++)
-            {
-                if (pickUp.task_list[i].isDestSameAsSrc())
-                {
-                    print("Object has the same destination as source!\n"
-                    self.formatPickTask(pickUp.task_list[i], result)
-                    self.formatPlaceTask(pickUp.task_list[i], result)
-                    task_list.removeTask(pickUp.task_list[i])
-                }
-                else 
-                {
-                    self.formatPickTask(pickUp.task_list[i], result)
-                }
-            }
-            it++
-        }
-    }
-    
-    std::map<int, std::string> uniqueDest = task_list.getUniqueDest()
-
-    if (uniqueDest.size() > 0)
-    {
-        print("\nPlacing objects at " + uniqueSrc.size() + " destination(s)\n"
-        std::map<int, std::string>::iterator it = uniqueDest.begin()
-        while (it != uniqueDest.end())
-        {
-            print("\nPlacing objects at " + it.second + "...\n"
-            formatDrive(it.first, result)                          // drive to first location
-            TaskList dropOff = task_list.getTasksByDest(it.first)   // get all the tasks with that dest
-            formatPlace(dropOff, result)                            // place them
-            it++
-        }
-    }
-}
 
     def optimize_list(self, task_list, result):
         holding_list TaskList(self.holding_capacity)
