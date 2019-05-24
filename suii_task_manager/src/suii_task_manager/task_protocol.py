@@ -1,5 +1,9 @@
 #! /usr/bin/env python
- 
+from msg_with_instance import MsgWithInstance
+from msg import BaseMsg
+from enum_object_identifier import ObjectIdentifierType
+from enum_location_identifier import LocationIdentifierType
+
 class TaskProtocol(object):
     ERROR_STRING = "NOT_FOUND"
 
@@ -14,20 +18,11 @@ class TaskProtocol(object):
     task_action_dict[4] = "PLACE_FROM_ROBOT"
     task_action_dict[5] = "DRIVE"
 
-    location_dict = {}
-    location_dict[1] = "Workstation 1"
-    location_dict[2] = "Workstation 2"
-    location_dict[3] = "Workstation 3"
-    location_dict[4] = "Workstation 4"
-    location_dict[5] = "Workstation 5"
-    location_dict[6] = "Workstation 6"
+    location_dict = MsgWithInstance(max_instance_id=3)
+    location_dict = location_dict.build_dict(LocationIdentifierType)
 
-    object_dict = {}
-    object_dict[1] = "Large Black Alu. Profile"
-    object_dict[2] = "Large Nut"
-    object_dict[3] = "Small Nut"
-    object_dict[4] = "Motor"
-    object_dict[5] = "Plastic Tube"
+    object_dict = BaseMsg()
+    object_dict = object_dict.build_dict(ObjectIdentifierType)
 
     container_dict = {}
     container_dict[1] = "CONTAINER_B"
