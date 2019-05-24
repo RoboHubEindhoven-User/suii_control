@@ -19,6 +19,9 @@ class TaskWithAction(Task):
         self.set_destination(task.destination)
         self.set_object(task.object)
         self.set_container(task.container)
+
+    def __eq__(self, other): # override '==' operator
+        return Task.__eq__(self, other) and self.action == other.action
     
-    def __repr__(self):
+    def __repr__(self): # string representation to use with print()
         return "<<'%s'>> %s" % (self.action_str, Task.__repr__(self))
