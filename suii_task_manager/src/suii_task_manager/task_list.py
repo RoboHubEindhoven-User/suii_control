@@ -83,7 +83,7 @@ class TaskList:
     def get_unique_destination(self):
         unique_dest_list = dict()
         for task in self.task_list:
-            unique_dest_list[task.destination] = self.task.destination_str
+            unique_dest_list[task.destination] = task.destination_str
         return unique_dest_list
 
     def get_unique_source(self):
