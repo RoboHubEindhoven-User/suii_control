@@ -198,4 +198,4 @@ install(PROGRAMS
 # endif()
 
 ## Add folders to be run by python nosetests
-catkin_add_nosetests(test/src/test/unit)
+catkin_add_nosetests(test/unit)
