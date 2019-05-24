@@ -27,7 +27,7 @@ class TaskMangerHandler:
 
         rospy.loginfo("Task Manager node initialized!")
 
-    self.conveyor_callback(self, msg):
+    def conveyor_callback(self, msg):
         self.conveyor_belt = msg
 
     def add_transportation_task (self, task):
@@ -45,7 +45,8 @@ class TaskMangerHandler:
         
         object_to_pick = protocol.look_up_object_string(task.transportation_task.object.description.data)
         if (object_to_pick == -1):
-            rospy.logerr("Object look-up failed") print("Object: " + task.transportation_task.object.description.data + "\n")
+            rospy.logerr("Object look-up failed") 
+            print("Object: " + task.transportation_task.object.description.data + "\n")
             return False
             
         container = -1
