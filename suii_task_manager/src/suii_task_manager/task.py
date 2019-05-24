@@ -3,16 +3,16 @@
 from task_protocol import TaskProtocol
 
 class Task:
-    def __init__(self):
-        self.type            = -1
+    def __init__(self, t_type = -1, source = -1, destination = -1, container = -1, t_object = -1):
+        self.type            = t_type
         self.type_str        = TaskProtocol.look_up_key(TaskProtocol.task_type_dict, self.type)
-        self.source          = -1
+        self.source          = source
         self.source_str      = TaskProtocol.look_up_key(TaskProtocol.location_dict, self.source)
-        self.destination     = -1
+        self.destination     = destination
         self.destination_str = TaskProtocol.look_up_key(TaskProtocol.location_dict, self.destination)
-        self.object          = -1
+        self.object          = t_object
         self.object_str      = TaskProtocol.look_up_key(TaskProtocol.object_dict, self.object)
-        self.container       = -1
+        self.container       = container
         self.container_str   = TaskProtocol.look_up_key(TaskProtocol.container_dict, self.container)
         self.picked          = False
         self.placed          = False

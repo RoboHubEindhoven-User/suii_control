@@ -1,0 +1,580 @@
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 0
+    instance_id: 0
+    orientation: !Orientation
+      w: 0.7486234044260225
+      x: 0.0
+      y: 0.0
+      z: -0.6629954738500045
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -10.992954499329723
+      y: -6.83432216423968
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 1
+    instance_id: 1
+    orientation: !Orientation
+      w: 0.7929279347887566
+      x: 0.0
+      y: 0.0
+      z: -0.6093154275345714
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -10.573804709123214
+      y: -7.861972011557018
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 2
+    instance_id: 2
+    orientation: !Orientation
+      w: 0.7373872279670362
+      x: 0.0
+      y: 0.0
+      z: -0.6754702628769754
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -8.892421498871045
+      y: -8.961580952660874
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 3
+    instance_id: 3
+    orientation: !Orientation
+      w: 0.7651560771467805
+      x: 0.0
+      y: 0.0
+      z: -0.6438448396976947
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -9.908078650314257
+      y: -10.378457642786781
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 4
+    instance_id: 4
+    orientation: !Orientation
+      w: 0.7466890002737882
+      x: 0.0
+      y: 0.0
+      z: -0.665173313407965
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -7.531760654159301
+      y: -10.096661788871147
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 5
+    instance_id: 5
+    orientation: !Orientation
+      w: 0.9968125067327244
+      x: 0.0
+      y: 0.0
+      z: 0.07977986225371861
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -10.097640431287813
+      y: -11.47031749162229
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 6
+    instance_id: 6
+    orientation: !Orientation
+      w: 0.754476489126916
+      x: 0.0
+      y: 0.0
+      z: -0.6563270734585941
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -10.515844139923452
+      y: -9.305240634404827
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 7
+    instance_id: 7
+    orientation: !Orientation
+      w: 0.7388887660810897
+      x: 0.0
+      y: 0.0
+      z: -0.6738274195661415
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -12.229622362946033
+      y: -10.938101329854346
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 8
+    instance_id: 8
+    orientation: !Orientation
+      w: -0.40940491889984887
+      x: 0.0
+      y: 0.0
+      z: 0.9123527894299486
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -13.649311305427453
+      y: -11.14025019003108
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 9
+    instance_id: 9
+    orientation: !Orientation
+      w: 0.7277723179674872
+      x: 0.0
+      y: 0.0
+      z: -0.685818819514477
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -13.192484291637825
+      y: -10.605447638173192
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 10
+    instance_id: 10
+    orientation: !Orientation
+      w: 0.9995716946502524
+      x: 0.0
+      y: 0.0
+      z: 0.029264778386698467
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -13.79539158964669
+      y: -9.75873072834704
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 11
+    instance_id: 11
+    orientation: !Orientation
+      w: 0.5700339236805312
+      x: 0.0
+      y: 0.0
+      z: 0.8216211571359262
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -14.416772730327759
+      y: -8.124353055974963
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WP
+    area_type: 4
+    description: Way Point 12
+    instance_id: 12
+    orientation: !Orientation
+      w: -0.038685887694762076
+      x: 0.0
+      y: 0.0
+      z: 0.9992514208612707
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -12.994115034852882
+      y: -7.937148913211269
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: SH
+    area_type: 1
+    description: Shelf 1
+    instance_id: 1
+    orientation: !Orientation
+      w: -0.05997991378497247
+      x: 0.0
+      y: 0.0
+      z: 0.9981995842226881
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -10.792125886136356
+      y: -11.602929644185092
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: SH
+    area_type: 1
+    description: Shelf 2
+    instance_id: 2
+    orientation: !Orientation
+      w: 0.6458527899581223
+      x: 0.0
+      y: 0.0
+      z: 0.763461966114429
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -13.993402224897046
+      y: -7.946727574074872
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: CB
+    area_type: 3
+    description: Conveyor belt
+    instance_id: 0
+    orientation: !Orientation
+      w: 0.9973526723225048
+      x: 0.0
+      y: 0.0
+      z: 0.07271620872376688
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -8.292258909697768
+      y: -8.673378130230954
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: PP
+    area_type: 5
+    description: Precision Platform
+    instance_id: 1
+    orientation: !Orientation
+      w: -0.062549708258497
+      x: 0.0
+      y: 0.0
+      z: 0.9980418498223294
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -10.794319460974183
+      y: -9.689566025993024
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 1
+    instance_id: 1
+    orientation: !Orientation
+      w: 0.7433852739623035
+      x: 0.0
+      y: 0.0
+      z: -0.668863464734015
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -8.919354862111442
+      y: -9.746452331988674
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 2
+    instance_id: 2
+    orientation: !Orientation
+      w: 0.7367803801440825
+      x: 0.0
+      y: 0.0
+      z: -0.676132140513037
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -7.452068769623432
+      y: -10.807045378973795
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 3
+    instance_id: 3
+    orientation: !Orientation
+      w: 0.998867225195206
+      x: -0.0
+      y: -0.0
+      z: 0.04758430866188602
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -10.425283602760167
+      y: -8.952820328249295
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 4
+    instance_id: 4
+    orientation: !Orientation
+      w: 0.755178348313147
+      x: 0.0
+      y: 0.0
+      z: -0.6555193835723144
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -13.076182074619567
+      y: -11.469602639161197
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 5
+    instance_id: 5
+    orientation: !Orientation
+      w: 0.6493214352967034
+      x: 0.0
+      y: 0.0
+      z: 0.7605140851188944
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -12.57902324710287
+      y: -9.4317717676879
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 6
+    instance_id: 6
+    orientation: !Orientation
+      w: -0.06559746020310186
+      x: 0.0
+      y: 0.0
+      z: 0.9978461671093909
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -14.72516117619684
+      y: -9.372141717221826
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 7
+    instance_id: 7
+    orientation: !Orientation
+      w: -0.05545300226306159
+      x: 0.0
+      y: 0.0
+      z: 0.9984612984688054
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -14.60426289463586
+      y: -10.35185834532204
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 8
+    instance_id: 8
+    orientation: !Orientation
+      w: -0.04540771259183585
+      x: 0.0
+      y: 0.0
+      z: 0.9989685378615171
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -10.797868369558692
+      y: -9.768662505540131
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 9
+    instance_id: 9
+    orientation: !Orientation
+      w: -0.05590830634231663
+      x: 0.0
+      y: 0.0
+      z: 0.9984359074482115
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -10.923610625070776
+      y: -8.674491281848391
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 10
+    instance_id: 10
+    orientation: !Orientation
+      w: 0.34753654370011466
+      x: 0.0
+      y: 0.0
+      z: 0.9376664389818898
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -14.8204032972109
+      y: -8.138840553036086
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: WS
+    area_type: 2
+    description: Workstation 11
+    instance_id: 11
+    orientation: !Orientation
+      w: 0.6550172851481959
+      x: -0.0
+      y: -0.0
+      z: 0.7556138935707092
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -9.418466698291638
+      y: -7.6490616080571705
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
+- !NavigationTask
+  destination: !ServiceArea
+    area_name: EX
+    area_type: 100
+    description: Exit
+    instance_id: 0
+    orientation: !Orientation
+      w: -0.04431693502423988
+      x: 0.0
+      y: 0.0
+      z: 0.9990175220035219
+    orientation_id: 0
+    orientation_name: ''
+    position: !Position
+      x: -14.515529402940693
+      y: -12.090951244669856
+      z: 0.0
+  wait_time: !Time
+    nsecs: 0
+    secs: 3
