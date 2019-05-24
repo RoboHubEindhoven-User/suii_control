@@ -8,13 +8,14 @@ __author__      = "Zinkeng Thierry"
 import unittest
 import rospy
 # from suii_task_manager.src.suii_task_manager.task_protocol import TaskProtocol
-from suii_task_manager.src.suii_task_manager.task_protocol import TaskProtocol
+from suii_task_manager.task_protocol import TaskProtocol
+# from suii_task_manager.task_protocol import TaskProtocol
 # from zinki_smachine.src.zinki_smachine.state import State
 # from suii_control.suii_task_manager.task_protocol import *
-# from suii_task_manager.src.suii_task_manager.task import Task
-from suii_task_manager.src.suii_task_manager.task_with_action import TaskWithAction
-from suii_task_manager.src.suii_task_manager.task_list import TaskList
-from suii_task_manager.src.suii_task_manager.task_list import TaskList
+from task import Task
+from task_with_action import TaskWithAction
+from task_list import TaskList
+from task_list import TaskList
 
 class TaskListTest(unittest.TestCase):
     def test_add_task(self):
