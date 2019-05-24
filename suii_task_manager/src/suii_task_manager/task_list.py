@@ -6,8 +6,8 @@ from task import Task
 class TaskList:
     DEFAULT_CAPACITY   = 20 
 
-    def __init__(self):
-        self.capacity   = self.DEFAULT_CAPACITY
+    def __init__(self, capacity = -1):
+        self.capacity   = self.DEFAULT_CAPACITY if (capacity == -1) else capacity
         self.task_list  = []
     
     def get_task_index(self, task_type, source, destination, obj, container):

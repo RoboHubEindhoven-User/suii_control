@@ -1,10 +1,10 @@
 #! /usr/bin/env python
-from protocol.enum_task_action import TaskActionType
-from task_with_action import TaskWithAction 
-from protocol.enum_task_action import TaskActionType
-from task import Task
-from task_list import TaskList
-from task_protocol import TaskProtocol
+from suii_task_manager.protocol.enum_task_action import TaskActionType
+from suii_task_manager.task_with_action import TaskWithAction 
+from suii_task_manager.protocol.enum_task_action import TaskActionType
+from suii_task_manager.task import Task
+from suii_task_manager.task_list import TaskList
+from suii_task_manager.task_protocol import TaskProtocol
 
 class TaskManager:
     MAX_HOLDING_CAPACITY = 3
@@ -33,7 +33,7 @@ class TaskManager:
         twa = TaskWithAction()
         twa.copy_from_task(task)
         twa.set_action(TaskActionType.PLACE)
-        print("Placing: " + twa.print_task_data())
+        print("Placing: " + twa)
         result.append(twa)
 
     def format_place (self, task_list, result):
@@ -91,7 +91,7 @@ class TaskManager:
                     holding_list.add_task(task) 
                     task_list.task_list[index].picked = True
                 else: 
-                    if (task.src == holding_list.task_list[0].src):
+                    if (task.source == holding_list.task_list[0].source):
                         holding_list.add_task(task) 
                         task_list.task_list[index].picked = True
                     else:
