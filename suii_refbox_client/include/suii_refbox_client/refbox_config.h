@@ -3,7 +3,7 @@
  * @file        : refbox_config.h
  *
  * @brief       : This file specifies the configurations to be used by the suii refbox 
- *                client node.
+ *                client node. for example configurations to debug.
  *
  * @author      : Thierry Zinkeng
  * Contact:     : thi.zinkeng@gmail.com
