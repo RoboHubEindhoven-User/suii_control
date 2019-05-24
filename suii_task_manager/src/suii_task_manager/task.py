@@ -40,9 +40,9 @@ class Task:
     def is_dest_same_as_src(self):
         return self.destination == self.source
 
-    def is_equal_to(self, task):
-        return task.type == self.type and task.source == self.source and task.destination == self.destination and task.object == self.object
+    def __eq__(self, other): # override '==' operator
+        return other.type == self.type and other.source == self.source and other.destination == self.destination and other.object == self.object and other.container == self.container
 
-    def __repr__(self):
+    def __repr__(self): # string representation to use with print()
         return ("Type: " + self.type_str + ", Source: " + self.source_str + ", Destination: " + self.destination_str + ", Object: " + self.object_str + ", Container: " + self.container_str)
     

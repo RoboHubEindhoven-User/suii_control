@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-
 from protocol.msg import BaseMsg
 from protocol.msg_with_instance import MsgWithInstance
 from protocol.enum_location_identifier import LocationIdentifierType
