@@ -31,19 +31,19 @@ class TaskMangerHandler:
         self.conveyor_belt = msg
 
     def add_transportation_task (self, task):
-        source = protocol.look_up_location_string(task.transportation_task.source.type.data)
+        source = protocol.look_up_key(TaskProtocol.location_dict, task.transportation_task.source.type.data)
         if (source == -1):
             rospy.logerr("Look up failed for source")
             print("Source: " + task.transportation_task.source.description.data + "\n")
             return False
         
-        destination = protocol.look_up_location_string(task.transportation_task.destination.type.data)
+        destination = protocol.look_up_key(TaskProtocol.location_dict, task.transportation_task.destination.type.data)
         if (destination == -1):
             rospy.logerr("Destination look-up failed")
             print("Destination: " + task.transportation_task.destination.description.data + "\n") 
             return False
         
-        object_to_pick = protocol.look_up_object_string(task.transportation_task.object.description.data)
+        object_to_pick = protocol.look_up_key(TaskProtocol.object_dict, task.transportation_task.object.description.data)
         if (object_to_pick == -1):
             rospy.logerr("Object look-up failed") 
             print("Object: " + task.transportation_task.object.description.data + "\n")
@@ -51,7 +51,7 @@ class TaskMangerHandler:
             
         container = -1
         if (task.transportation_task.container.description.data != ""):
-            container = protocol.lookUpContainerString(task.transportation_task.container.description.data)
+            container = protocol.look_up_key(TaskProtocol.container_dict, task.transportation_task.container.description.data)
             if (container == -1):
                 rospy.logerr("Container look-up failed") 
                 print("Container: " + task.transportation_task.container.description.data + "\n")
@@ -70,7 +70,7 @@ class TaskMangerHandler:
         return True
 
     def add_navigation_task(self, task):
-        int destination = protocol.look_up_location_string(task.transportation_task.destination.description.data)
+        destination = protocol.look_up_key(task.transportation_task.destination.description.data)
         if (destination == -1):
             rospy.logerr("Destination look-up failed")
             return False
