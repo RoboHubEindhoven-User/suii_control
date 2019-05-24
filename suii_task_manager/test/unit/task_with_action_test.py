@@ -1,8 +1,8 @@
 # !/usr/bin/env python
 
 # To import suii_task_manager
-import sys, os
-sys.path.append(os.path.abspath(os.path.join('../..', 'src/')))
+# import sys, os
+# sys.path.append(os.path.abspath(os.path.join('../..', 'src/')))
 
 import unittest
 from suii_task_manager.task import Task
