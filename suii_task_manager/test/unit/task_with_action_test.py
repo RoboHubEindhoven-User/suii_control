@@ -1,9 +1,13 @@
 # !/usr/bin/env python
 
+# To import suii_task_manager
+import sys, os
+sys.path.append(os.path.abspath(os.path.join('../..', 'src/')))
+
 import unittest
-from task import Task
-from protocol.enum_task_action import TaskActionType
-from task_with_action import TaskWithAction 
+from suii_task_manager.task import Task
+from suii_task_manager.protocol.enum_task_action import TaskActionType
+from suii_task_manager.task_with_action import TaskWithAction 
 
 class TaskWithActionTest(unittest.TestCase):
     def test_set_action(self):
@@ -13,6 +17,7 @@ class TaskWithActionTest(unittest.TestCase):
         self.assertEqual(twa.action, TaskActionType.PICK)
 
     def test_copy_from_task(self):
+        print ("Testing method: " + str(self._testMethodName))
         t = Task()
         t.set_type(1)
         t.set_source(1)

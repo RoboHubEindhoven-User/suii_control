@@ -19,7 +19,7 @@ class TaskList:
         task.set_container(container)
         
         for i in range(0, len(self.task_list)):
-            if (self.task_list[i].is_equal_to(task)):
+            if (self.task_list[i] == task):
                 return i
                 
         return -1
@@ -64,7 +64,7 @@ class TaskList:
                 task.set_container(self.task_list[i].container)
                 return True, i, task
                 
-        return False
+        return False, -1, None
 
     def get_tasks_by_source(self, source):
         task_list  = TaskList()
@@ -83,7 +83,7 @@ class TaskList:
     def get_unique_destination(self):
         unique_dest_list = dict()
         for task in self.task_list:
-            unique_dest_list[task.destination] = self.task.destination_str
+            unique_dest_list[task.destination] = task.destination_str
         return unique_dest_list
 
     def get_unique_source(self):
