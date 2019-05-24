@@ -87,9 +87,8 @@ class TaskManager:
     }
 }
 
-    def optimize_list(self, task_list):
+    def optimize_list(self, task_list, result):
         holding_list TaskList(self.holding_capacity)
-        result
         format_now = False
         print("Sorting task list by source and destination...\n")
         task_list.sort_by_src_and_dest()
@@ -130,4 +129,4 @@ class TaskManager:
             task_list.remove_task(task)
         holding_list.clear_task()
 
-        return True, result
+        return True
