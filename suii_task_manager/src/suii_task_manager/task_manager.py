@@ -9,9 +9,9 @@ from suii_task_manager.task_protocol import TaskProtocol
 class TaskManager:
     MAX_HOLDING_CAPACITY = 3
 
-    def __init__(self):
+    def __init__(self, holding_capacity=MAX_HOLDING_CAPACITY):
         self.protocol = TaskProtocol()
-        self.holding_capacity = self.MAX_HOLDING_CAPACITY
+        self.holding_capacity = holding_capacity
         
     def format_drive(self, dest, result):
         twa = TaskWithAction()
