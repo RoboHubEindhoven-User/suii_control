@@ -33,10 +33,12 @@ class TaskListTest(unittest.TestCase):
         self.assertEqual(tl.get_task_index(t2.type, t2.source, t2.destination, t2.object, t2.container), 1)
 
     def test_is_empty(self):
+        print ("Testing method: " + str(self._testMethodName))
         tl = TaskList()
         self.assertTrue(tl.is_empty())
 
     def test_is_full(self):
+        print ("Testing method: " + str(self._testMethodName))
         tl = TaskList()
         tl.capacity = 3
         
@@ -50,6 +52,7 @@ class TaskListTest(unittest.TestCase):
         self.assertTrue(tl.is_full())
     
     def test_clear_task(self):
+        print ("Testing method: " + str(self._testMethodName))
         tl = TaskList()
         tl.capacity = 3
         
@@ -106,6 +109,7 @@ class TaskListTest(unittest.TestCase):
         self.assertEqual(len(tl.task_list), 2)
 
     def test_get_next_obj_to_pick(self):
+        print ("Testing method: " + str(self._testMethodName))
         tl = TaskList()
         tl.capacity = 3
         
@@ -125,6 +129,7 @@ class TaskListTest(unittest.TestCase):
         self.assertFalse(task.picked)
     
     def test_get_tasks_by_source(self):
+        print ("Testing method: " + str(self._testMethodName))
         tl = TaskList()
         tl.capacity = 3
         
@@ -141,6 +146,7 @@ class TaskListTest(unittest.TestCase):
             self.assertEqual(item.source, 2)
 
     def test_get_tasks_by_destination(self):
+        print ("Testing method: " + str(self._testMethodName))
         tl = TaskList()
         tl.capacity = 3
         
@@ -157,6 +163,7 @@ class TaskListTest(unittest.TestCase):
             self.assertEqual(item.destination, 4)
 
     def test_get_unique_destination(self):
+        print ("Testing method: " + str(self._testMethodName))
         tl = TaskList()
         tl.capacity = 3
         
@@ -175,6 +182,7 @@ class TaskListTest(unittest.TestCase):
             self.assertTrue(item == 3 or item == 4)
     
     def test_get_unique_source(self):
+        print ("Testing method: " + str(self._testMethodName))
         tl = TaskList()
         tl.capacity = 3
         
@@ -193,6 +201,7 @@ class TaskListTest(unittest.TestCase):
             self.assertTrue(item == 2 or item == 3)
 
     def test_sort_by_src_and_dest(self):
+        print ("Testing method: " + str(self._testMethodName))
         tl = TaskList()
         tl.capacity = 3
         
