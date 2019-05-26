@@ -31,7 +31,7 @@ class TaskManagerTest(unittest.TestCase):
         tm = TaskManager()
 
         result = []
-        dest_key = TaskProtocol.look_up_value(TaskProtocol.location_dict, "WS 1")
+        dest_key = TaskProtocol.look_up_value(TaskProtocol.location_dict, "Workstation 1")
         action_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "DRIVE")
 
         result = tm.format_drive(dest_key, result)
@@ -40,7 +40,7 @@ class TaskManagerTest(unittest.TestCase):
             self.assertEqual(item.action, action_key)
             self.assertEqual(item.action_str, "DRIVE")
             self.assertEqual(item.destination, dest_key)
-            self.assertEqual(item.destination_str, "WS 1")
+            self.assertEqual(item.destination_str, "Workstation 1")
 
     def test_format_pick_task(self):
         print ("Testing method: " + str(self._testMethodName))

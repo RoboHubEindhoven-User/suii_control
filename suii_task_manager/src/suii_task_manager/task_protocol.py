@@ -1,28 +1,18 @@
 #! /usr/bin/env python
-from protocol.msg import BaseMsg
-from protocol.msg_with_instance import MsgWithInstance
+from protocol.dict_builder import DictBuilder
 from protocol.enum_location_identifier import LocationIdentifierType
-from protocol.enum_object import ObjectType
+from protocol.enum_object_identifier import ObjectIdentifierType
 from protocol.enum_task_action import TaskActionType
 from protocol.enum_task_type import TaskType
 
 class TaskProtocol(object):
     ERROR_STRING = "NOT_FOUND"
 
-    task_type_dict = BaseMsg()
-    task_type_dict = task_type_dict.build_dict(TaskType)
-
-    task_action_dict = BaseMsg()
-    task_action_dict = task_action_dict.build_dict(TaskActionType)
-
-    location_dict = MsgWithInstance(max_instance_id=3)
-    location_dict = location_dict.build_dict(LocationIdentifierType)
-
-    object_dict = BaseMsg()
-    object_dict = object_dict.build_dict(ObjectType)
-
-    container_dict = BaseMsg()
-    container_dict = container_dict.build_dict(ObjectType)
+    task_type_dict = DictBuilder.build_dict(TaskType)
+    task_action_dict = DictBuilder.build_dict(TaskActionType)
+    location_dict = DictBuilder.build_dict_with_instance_id(LocationIdentifierType, max_instance_id=3)
+    object_dict = DictBuilder.build_dict(ObjectIdentifierType)
+    container_dict = DictBuilder.build_dict(ObjectIdentifierType)
 
     # Look up key in dictionary
     @staticmethod
