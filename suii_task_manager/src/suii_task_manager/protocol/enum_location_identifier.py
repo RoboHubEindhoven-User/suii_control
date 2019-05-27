@@ -14,3 +14,6 @@ class LocationIdentifierType(Enum):
         member._value_ = value
         member.fullname = name
         return member
+
+   def __int__(self):
+        return self.value
