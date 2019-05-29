@@ -46,18 +46,13 @@ class TaskManager:
         unique_sources = task_list.get_unique_source()
 
         if (len(unique_sources) > 0):
-            print("\nPicking objects from " + str(len(unique_sources)) + " source(s)\n")
-            
             for key, value in unique_sources.items():
-                print("\nPicking objects from " + str(value) + "\n")
                 self.format_drive(key, result) # drive to first location
-
                 pick_up = task_list.get_tasks_by_source(key)    # get all the tasks with that source
 
                 # Pick up selectively
                 for task in pick_up.task_list:
                     if task.is_dest_same_as_src():
-                        print("Object has the same destination as source!\n")
                         self.format_pick_task(task, result)
                         self.format_place_task(task, result)
                         task_list.remove_task(task)
@@ -67,9 +62,7 @@ class TaskManager:
         unique_destinations = task_list.get_unique_destination()
 
         if len(unique_destinations) > 0:
-            print("\nPlacing objects at " + str(len(unique_destinations)) + " destination(s)\n")
             for key, value in unique_destinations.items():
-                print("\nPlacing objects at " + value + "...\n")
                 self.format_drive(key, result)                    # drive to first location
                 drop_off_list = task_list.get_tasks_by_destination(key)   # get all the tasks with that dest
                 self.format_place(drop_off_list, result) 
@@ -78,15 +71,14 @@ class TaskManager:
     def optimize_list(self, task_list, result):
         holding_list = TaskList(self.holding_capacity)
         format_now   = False
-        print("Sorting task list by source and destination...\n")
         task_list.sort_by_src_and_dest()
-        task_list.print_task_list()
+        # task_list.print_task_list()
         
         while not task_list.is_empty():
             if not holding_list.is_full():
                 (status, index, task) =  task_list.get_next_obj_to_pick()
-                task  = Task()
-                index = 0
+                # task  = Task()
+                # index = 0
                 if not status: # picked everything
                     break 
 
