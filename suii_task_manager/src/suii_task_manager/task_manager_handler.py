@@ -15,6 +15,7 @@ from suii_task_manager.task_list import TaskList
 from suii_task_manager.protocol.enum_task_type import TaskType
 from suii_task_manager.task import Task
 from suii_task_manager.refbox_converter import RefBoxConverter
+from suii_task_manager.action_list import ActionList
 
 class TaskMangerHandler:
     def __init__(self):
@@ -36,8 +37,11 @@ class TaskMangerHandler:
     def add_transportation_task(self, task):
         tmp_task = RefBoxConverter.transportation_task_to_task(task) 
         if (tmp_task is None):
+            rospy.logerr("Cannot convert transportation task!")
             return False
         self.task_list.add_task(tmp_task) 
+        rospy.loginfo("Task converted!")
+        rospy.loginfo(tmp_task)
         return True
         
     def add_navigation_task(self, task):
@@ -48,10 +52,10 @@ class TaskMangerHandler:
         return True
 
     def process_one_task (self, task):
-        if(task.type.data == TaskType.TRANSPORTATION): # TRANSPORTATION
+        if(task.type.data == int(TaskType.TRANSPORTATION)): # TRANSPORTATION
             rospy.loginfo("Transportation Task received")
             return self.add_transportation_task(task)
-        elif (task.type.data == TaskType.NAVIGATION): # NAVIGATION
+        elif (task.type.data == int(TaskType.NAVIGATION)): # NAVIGATION
             rospy.loginfo("Navigation task received")
             return self.add_navigation_task(task)
         return False
@@ -63,14 +67,17 @@ class TaskMangerHandler:
             if self.process_one_task(task):
                 rospy.loginfo("Task processed")
             else:
+                rospy.logerr("Failed to process task")
                 return
-        
-        result = []
-        if (self.task_manager.optimize_list(self.task_list, result)):
+        if __debug__:
+            rospy.loginfo("Converted task list: ")
+            print(self.task_list)
+
+        result = ActionList()
+        if (self.task_manager.optimize_list(self.task_list, result.action_list)):
             rospy.loginfo("Finished optimizing")
         else:
             rospy.logerr("Failed to optimize")
         if __debug__:
             rospy.loginfo("Final task list:")
-            for task in result:
-                task.print_task_data()
+            print(result)

@@ -7,22 +7,26 @@ from suii_task_manager.task import Task
 class RefBoxConverter:
     @staticmethod
     def transportation_task_to_task(task):
-        source = TaskProtocol.look_up_value(TaskProtocol.location_dict, task.transportation_task.source.type.data)
+        source = TaskProtocol.look_up_value(TaskProtocol.location_dict, task.transportation_task.source.description.data)
         if (source == -1):
+            print("Error look up for: ", task.transportation_task.source.description.data)
             return None
         
-        destination = TaskProtocol.look_up_value(TaskProtocol.location_dict, task.transportation_task.destination.type.data)
+        destination = TaskProtocol.look_up_value(TaskProtocol.location_dict, task.transportation_task.destination.description.data)
         if (destination == -1):
+            print("Error look up for: ", task.transportation_task.destination.description.data)
             return None
         
         object_to_pick = TaskProtocol.look_up_value(TaskProtocol.object_dict, task.transportation_task.object.description.data)
         if (object_to_pick == -1):
+            print("Error look up for: ", task.transportation_task.object.description.data)
             return None
             
         container = -1
         if (task.transportation_task.container.description.data != ""):
             container = TaskProtocol.look_up_value(TaskProtocol.container_dict, task.transportation_task.container.description.data)
             if (container == -1):
+                print("Error look up for: ", task.transportation_task.container.description.data)
                 return None
         
         # create a new task

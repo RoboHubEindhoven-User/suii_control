@@ -4,9 +4,9 @@ from enum import Enum
 class ObjectIdentifierType(Enum):
    F20_20_B=1, 'Small Aluminium Profile (Black)'
    F20_20_G=2, 'Small Aluminium Profile (Grey)'
-   S40_40_B=3, 'Big Aluminium Profile (Black)'
+   S40_40_B=3, 'Large Black Alu. Profile'
    S40_40_G=4, 'Big Aluminium Profile (Grey)'
-   M20_100=5, 'Screw (Bolt)'
+   M20_100=5, 'Bolt'
    M20=6, 'Small Nut'
    M30=7, 'Large Nut'
    R20=8, 'Plastic Tube'
