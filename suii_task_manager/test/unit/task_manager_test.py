@@ -193,13 +193,13 @@ class TaskManagerTest(unittest.TestCase):
         tm = TaskManager()
         tl = TaskList()
         
-        t1 = Task(t_type=1, source=2, destination=1, t_object=4)
+        t1 = Task(t_type=2, source=2, destination=1, t_object=4)
         tl.add_task(t1)
-        t2 = Task(t_type=1, source=3, destination=3, t_object=2)
+        t2 = Task(t_type=2, source=3, destination=3, t_object=2)
         tl.add_task(t2)
-        t3 = Task(t_type=1, source=2, destination=4, t_object=3)
+        t3 = Task(t_type=2, source=2, destination=4, t_object=3)
         tl.add_task(t3)
-        t4 = Task(t_type=1, source=5, destination=4, t_object=3)
+        t4 = Task(t_type=2, source=5, destination=4, t_object=3)
         tl.add_task(t4)
 
         result = ActionList()

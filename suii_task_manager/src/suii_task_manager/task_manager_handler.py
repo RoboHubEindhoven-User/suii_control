@@ -14,7 +14,7 @@ from suii_task_manager.task_protocol import TaskProtocol
 from suii_task_manager.task_list import TaskList
 from suii_task_manager.protocol.enum_task_type import TaskType
 from suii_task_manager.task import Task
-
+from suii_task_manager.refbox_converter import RefBoxConverter
 
 class TaskMangerHandler:
     def __init__(self):
@@ -25,7 +25,6 @@ class TaskMangerHandler:
         rospy.Subscriber("/suii_refbox_client/task_info", TaskInfo, self.task_callback)
 
         self.task_manager  = TaskManager()
-        self.protocol      = TaskProtocol()
         self.task_list     = TaskList()
         self.conveyor_belt = TriggeredConveyorBeltStatus()
 
@@ -34,65 +33,25 @@ class TaskMangerHandler:
     def conveyor_callback(self, msg):
         self.conveyor_belt = msg
 
-    def add_transportation_task (self, task):
-        source = self.protocol.look_up_key(TaskProtocol.location_dict, task.transportation_task.source.type.data)
-        if (source == -1):
-            rospy.logerr("Look up failed for source")
-            print("Source: " + task.transportation_task.source.description.data + "\n")
+    def add_transportation_task(self, task):
+        tmp_task = RefBoxConverter.transportation_task_to_task(task) 
+        if (tmp_task is None):
             return False
-        
-        destination = self.protocol.look_up_key(TaskProtocol.location_dict, task.transportation_task.destination.type.data)
-        if (destination == -1):
-            rospy.logerr("Destination look-up failed")
-            print("Destination: " + task.transportation_task.destination.description.data + "\n") 
-            return False
-        
-        object_to_pick = self.protocol.look_up_key(TaskProtocol.object_dict, task.transportation_task.object.description.data)
-        if (object_to_pick == -1):
-            rospy.logerr("Object look-up failed") 
-            print("Object: " + task.transportation_task.object.description.data + "\n")
-            return False
-            
-        container = -1
-        if (task.transportation_task.container.description.data != ""):
-            container = self.protocol.look_up_key(TaskProtocol.container_dict, task.transportation_task.container.description.data)
-            if (container == -1):
-                rospy.logerr("Container look-up failed") 
-                print("Container: " + task.transportation_task.container.description.data + "\n")
-                return False
-        
-        # create a new task
-        tmp_task = Task()
-        tmp_task.set_type(self.protocol.look_up_key(TaskProtocol.task_type_dict, TaskType.TRANSPORTATION))
-        tmp_task.set_source(source) 
-        location = source if (source == -1) else destination
-        tmp_task.set_destination(location)
-        tmp_task.set_object(object_to_pick)
-        tmp_task.set_container(container)
-        self.task_list.add_task(tmp_task)
-
+        self.task_list.add_task(tmp_task) 
         return True
-
+        
     def add_navigation_task(self, task):
-        destination = self.protocol.look_up_key(TaskProtocol.location_dict, task.transportation_task.destination.description.data)
-        if (destination == -1):
-            rospy.logerr("Destination look-up failed")
+        tmp_task = RefBoxConverter.navigation_task_to_task(task) 
+        if (tmp_task is None):
             return False
-        tmp_task = Task() 
-        tmp_task.set_type (self.protocol.look_up_key(TaskProtocol.task_type_dict, TaskType.NAVIGATION)) 
-        tmp_task.set_source(None) 
-        tmp_task.set_destination(destination)
-        tmp_task.set_object(None)
-        tmp_task.set_container(-1)
-        self.task_list.add_task(tmp_task)
-
+        self.task_list.add_task(tmp_task) 
         return True
 
     def process_one_task (self, task):
-        if(task.type.data == 1): # TRANSPORTATION
+        if(task.type.data == TaskType.TRANSPORTATION): # TRANSPORTATION
             rospy.loginfo("Transportation Task received")
             return self.add_transportation_task(task)
-        elif (task.type.data == 2): # NAVIGATION
+        elif (task.type.data == TaskType.NAVIGATION): # NAVIGATION
             rospy.loginfo("Navigation task received")
             return self.add_navigation_task(task)
         return False
