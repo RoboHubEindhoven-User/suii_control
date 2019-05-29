@@ -44,5 +44,16 @@ class Task:
         return ((other.type == self.type) and (other.source == self.source) and (other.destination == self.destination) and (other.object == self.object) and (other.container == self.container))
 
     def __repr__(self): # string representation to use with print()
-        return ("Type: " + self.type_str + ", Source: " + self.source_str + ", Destination: " + self.destination_str + ", Object: " + self.object_str + ", Container: " + self.container_str)
+        retstr = ''
+        if self.type_str != TaskProtocol.ERROR_STRING:
+            retstr += "Type: " + self.type_str + "; "
+        if self.source_str != TaskProtocol.ERROR_STRING:
+            retstr += "Source: " + self.source_str + "; "
+        if self.destination_str != TaskProtocol.ERROR_STRING:
+            retstr += "Destination: " + self.destination_str + "; "
+        if self.object_str != TaskProtocol.ERROR_STRING:
+            retstr += "Object: " + self.object_str + "; "
+        if self.container_str != TaskProtocol.ERROR_STRING:
+            retstr += "Container: " + self.container_str + "; "
+        return retstr
     
