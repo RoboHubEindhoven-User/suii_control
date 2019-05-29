@@ -23,7 +23,6 @@ class TaskManager:
         twa.copy_from_task(task)
         twa.set_action(TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PICK"))
         result.append(twa)
-        self.format_place_to_robot(task, result)
         return result
     
     def format_pick_from_robot(self, task, result):
@@ -39,7 +38,6 @@ class TaskManager:
         return result
 
     def format_place_task (self, task, result):
-        self.format_pick_from_robot(task, result)
         twa = TaskWithAction()
         twa.copy_from_task(task)
         twa.set_action(TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PLACE"))
@@ -74,14 +72,18 @@ class TaskManager:
                         task_list.remove_task(task)
                     else:
                         self.format_pick_task(task, result)
+                        self.format_place_to_robot(task, result)
     
         unique_destinations = task_list.get_unique_destination()
 
         if len(unique_destinations) > 0:
             for key, value in unique_destinations.items():
-                self.format_drive(key, result)                    # drive to first location
-                drop_off_list = task_list.get_tasks_by_destination(key)   # get all the tasks with that dest
-                self.format_place(drop_off_list, result) 
+                self.format_drive(key, result)                              # drive to first location
+                drop_off_list = task_list.get_tasks_by_destination(key)     # get all the tasks with that dest
+
+                for task in drop_off_list.task_list:
+                    self.format_pick_from_robot(task, result)
+                    self.format_place_task(task, result)
         return result
 
     def optimize_list(self, task_list, result):
