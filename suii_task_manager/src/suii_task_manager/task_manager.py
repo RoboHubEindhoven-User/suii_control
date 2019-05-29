@@ -1,8 +1,26 @@
 #! /usr/bin/env python
+import rospy
+from suii_msgs.srv import DistanceToGoal
+
 from suii_task_manager.task_with_action import TaskWithAction 
 from suii_task_manager.task import Task
 from suii_task_manager.task_list import TaskList
 from suii_task_manager.task_protocol import TaskProtocol
+from suii_task_manager.distancemsg_converter import DistanceMsgConverter
+
+class DistanceToGoalClient:
+    @staticmethod
+    def call_serv(type_id, instance_id):
+        rospy.loginfo("Waiting for service...")
+        rospy.wait_for_service('get_distance')
+        rospy.loginfo("Service is up!")
+        try:
+            distance_to_goal = rospy.ServiceProxy('get_distance', DistanceToGoal)
+            res = distance_to_goal(type_id, instance_id)
+            return res.distance
+        except rospy.ServiceException:
+            print "Service call failed"
+        
 
 class TaskManager:
     MAX_HOLDING_CAPACITY = 3
@@ -19,6 +37,10 @@ class TaskManager:
         return result
 
     def format_pick_task(self, task, result):
+        type_id, instance_id = DistanceMsgConverter.string_to_distance_msg(task.destination_str)
+        rospy.loginfo("[Converted] Type: %d; Instance: %d" % (type_id, instance_id))
+        if (type_id != -1):
+            rospy.loginfo("Distance test: %f", DistanceToGoalClient.call_serv(type_id, instance_id))
         twa = TaskWithAction()
         twa.copy_from_task(task)
         twa.set_action(TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PICK"))
