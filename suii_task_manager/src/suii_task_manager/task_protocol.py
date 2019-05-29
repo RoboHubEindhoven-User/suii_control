@@ -10,7 +10,7 @@ class TaskProtocol(object):
 
     task_type_dict = DictBuilder.build_dict(TaskType)
     task_action_dict = DictBuilder.build_dict(TaskActionType)
-    location_dict = DictBuilder.build_dict_with_instance_id(LocationIdentifierType, max_instance_id=6)
+    location_dict = DictBuilder.build_dict_with_instance_id(LocationIdentifierType, max_instance_id=100, exception_lists=[int(LocationIdentifierType.EX)])
     object_dict = DictBuilder.build_dict(ObjectIdentifierType)
     container_dict = DictBuilder.build_dict(ObjectIdentifierType)
 

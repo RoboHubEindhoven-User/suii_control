@@ -14,10 +14,12 @@ class DictBuilder:
         return output_dict
 
     @staticmethod
-    def build_dict_with_instance_id(enum_class, max_instance_id=3):
+    def build_dict_with_instance_id(enum_class, max_instance_id=3, exception_lists=[]):
         i = 1
         output_dict = {}
         for item in enum_class:
+            if int(item) in exception_lists:
+                continue
             for j in range(1, max_instance_id + 1):
                 if hasattr(item, 'fullname'):
                     output_dict[i] = item.fullname + " " + str(j)

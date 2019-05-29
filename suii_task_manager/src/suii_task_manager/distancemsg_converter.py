@@ -15,7 +15,7 @@ class DistanceMsgConverter:
         fragments = data.split(' ')
         fullname = ''
         type_id = -1
-        instance_id = -1
+        instance_id = 0
 
         for item in fragments:
             if (DistanceMsgConverter.represents_int(item)):
@@ -29,6 +29,6 @@ class DistanceMsgConverter:
             if (loc.fullname == fullname):
                 type_id = int(loc)
         
-        if (type_id == -1 or instance_id == -1):
+        if (type_id == -1):
             return -1, -1 # Error
         return type_id, instance_id
