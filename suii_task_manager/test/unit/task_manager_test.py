@@ -53,21 +53,45 @@ class TaskManagerTest(unittest.TestCase):
 
         result.action_list = tm.format_pick_task(t, result.action_list)
         action_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PICK")
+        place_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PLACE_TO_ROBOT")
+
+        self.assertEqual(len(result.action_list), 2) # 1 pick 1 place to robot
+        for item in result.action_list:
+            if (item.action == action_key):
+                self.assertEqual(item.action, action_key)
+                self.assertEqual(item.action_str, "PICK")
+                self.assertEqual(item.type, t.type)
+                self.assertEqual(item.type_str, t.type_str)
+                self.assertEqual(item.source, t.source)
+                self.assertEqual(item.source_str, t.source_str)
+                self.assertEqual(item.destination, t.destination)
+                self.assertEqual(item.destination_str, t.destination_str)
+                self.assertEqual(item.object, t.object)
+                self.assertEqual(item.object_str, t.object_str)
+                self.assertEqual(item.container, t.container)
+                self.assertEqual(item.container_str, t.container_str)
+            elif (item.action == place_key):
+                self.assertEqual(item.action, place_key)
+                self.assertEqual(item.action_str, "PLACE_TO_ROBOT")
+                self.assertEqual(item.object, t.object)
+                self.assertEqual(item.object_str, t.object_str)
+
+    def test_format_pick_from_robot(self):
+        print ("Testing method: " + str(self._testMethodName))
+        tm = TaskManager()
+
+        result = ActionList()
+        t = Task(t_type=1, source=2, destination=4, container=2, t_object=4)
+
+        result.action_list = tm.format_pick_from_robot(t, result.action_list)
+        action_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PICK_FROM_ROBOT")
 
         self.assertEqual(len(result.action_list), 1)
         for item in result.action_list:
             self.assertEqual(item.action, action_key)
-            self.assertEqual(item.action_str, "PICK")
-            self.assertEqual(item.type, t.type)
-            self.assertEqual(item.type_str, t.type_str)
-            self.assertEqual(item.source, t.source)
-            self.assertEqual(item.source_str, t.source_str)
-            self.assertEqual(item.destination, t.destination)
-            self.assertEqual(item.destination_str, t.destination_str)
+            self.assertEqual(item.action_str, "PICK_FROM_ROBOT")
             self.assertEqual(item.object, t.object)
             self.assertEqual(item.object_str, t.object_str)
-            self.assertEqual(item.container, t.container)
-            self.assertEqual(item.container_str, t.container_str)
     
     def test_format_pick (self):
         print ("Testing method: " + str(self._testMethodName))
@@ -86,7 +110,7 @@ class TaskManagerTest(unittest.TestCase):
 
         # If reached here, format_pick_task passed the test
         # So only assert len
-        self.assertEquals(len(result.action_list), 3)
+        self.assertEquals(len(result.action_list), 6) # 3x2 because pick then place to robot
     
     def test_format_place_task(self):
         print ("Testing method: " + str(self._testMethodName))
@@ -97,22 +121,46 @@ class TaskManagerTest(unittest.TestCase):
 
         result.action_list = tm.format_place_task(t, result.action_list)
         action_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PLACE")
+        pick_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PICK_FROM_ROBOT")
 
-        self.assertEqual(len(result.action_list), 1)
+        self.assertEqual(len(result.action_list), 2) # 1 pick from robot 1 place
 
         for item in result.action_list:
+            if (item.action == action_key):
+                self.assertEqual(item.action, action_key)
+                self.assertEqual(item.action_str, "PLACE")
+                self.assertEqual(item.type, t.type)
+                self.assertEqual(item.type_str, t.type_str)
+                self.assertEqual(item.source, t.source)
+                self.assertEqual(item.source_str, t.source_str)
+                self.assertEqual(item.destination, t.destination)
+                self.assertEqual(item.destination_str, t.destination_str)
+                self.assertEqual(item.object, t.object)
+                self.assertEqual(item.object_str, t.object_str)
+                self.assertEqual(item.container, t.container)
+                self.assertEqual(item.container_str, t.container_str)
+            elif (item.action == pick_key):
+                self.assertEqual(item.action, pick_key)
+                self.assertEqual(item.action_str, "PICK_FROM_ROBOT")
+                self.assertEqual(item.object, t.object)
+                self.assertEqual(item.object_str, t.object_str)
+
+    def test_format_place_to_robot(self):
+        print ("Testing method: " + str(self._testMethodName))
+        tm = TaskManager()
+
+        result = ActionList()
+        t = Task(t_type=1, source=2, destination=4, container=2, t_object=4)
+
+        result.action_list = tm.format_place_to_robot(t, result.action_list)
+        action_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PLACE_TO_ROBOT")
+
+        self.assertEqual(len(result.action_list), 1)
+        for item in result.action_list:
             self.assertEqual(item.action, action_key)
-            self.assertEqual(item.action_str, "PLACE")
-            self.assertEqual(item.type, t.type)
-            self.assertEqual(item.type_str, t.type_str)
-            self.assertEqual(item.source, t.source)
-            self.assertEqual(item.source_str, t.source_str)
-            self.assertEqual(item.destination, t.destination)
-            self.assertEqual(item.destination_str, t.destination_str)
+            self.assertEqual(item.action_str, "PLACE_TO_ROBOT")
             self.assertEqual(item.object, t.object)
             self.assertEqual(item.object_str, t.object_str)
-            self.assertEqual(item.container, t.container)
-            self.assertEqual(item.container_str, t.container_str)
 
     def test_format_place (self):
         print ("Testing method: " + str(self._testMethodName))
@@ -131,7 +179,7 @@ class TaskManagerTest(unittest.TestCase):
 
         # If reached here, format_place_task passed the test
         # So only assert len
-        self.assertEquals(len(result.action_list), 3)
+        self.assertEquals(len(result.action_list), 6) # 3x2 because pick from robot then place
 
     def test_format_set_of_tasks(self):
         print ("Testing method: " + str(self._testMethodName))

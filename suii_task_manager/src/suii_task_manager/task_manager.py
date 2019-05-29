@@ -23,6 +23,14 @@ class TaskManager:
         twa.copy_from_task(task)
         twa.set_action(TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PICK"))
         result.append(twa)
+        self.format_place_to_robot(task, result)
+        return result
+    
+    def format_pick_from_robot(self, task, result):
+        twa = TaskWithAction()
+        twa.set_action(TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PICK_FROM_ROBOT"))
+        twa.set_object(task.object)
+        result.append(twa)
         return result
 
     def format_pick (self, task_list, result):
@@ -31,6 +39,7 @@ class TaskManager:
         return result
 
     def format_place_task (self, task, result):
+        self.format_pick_from_robot(task, result)
         twa = TaskWithAction()
         twa.copy_from_task(task)
         twa.set_action(TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PLACE"))
@@ -41,13 +50,20 @@ class TaskManager:
         for task in task_list.task_list:
             self.format_place_task(task, result)
         return result
+    
+    def format_place_to_robot(self, task, result):
+        twa = TaskWithAction()
+        twa.set_action(TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PLACE_TO_ROBOT"))
+        twa.set_object(task.object)
+        result.append(twa)
+        return result
         
     def format_set_of_tasks (self, task_list, result):
         unique_sources = task_list.get_unique_source()
 
         if (len(unique_sources) > 0):
             for key, value in unique_sources.items():
-                self.format_drive(key, result) # drive to first location
+                self.format_drive(key, result)                  # drive to first location
                 pick_up = task_list.get_tasks_by_source(key)    # get all the tasks with that source
 
                 # Pick up selectively
