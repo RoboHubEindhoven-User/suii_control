@@ -96,7 +96,12 @@ class TaskList:
         self.task_list.sort(key=cmp_to_key(self.cmp_items))
 
     def cmp_items(self, t1, t2):
-        return (t1.source < t2.source) or (t1.source == t2.source and (t1.destination < t2.destination))
+        if ((t1.source < t2.source) or  ((t1.source == t2.source) and (t1.destination < t2.destination))):
+            return -1
+        elif ((t1.source == t2.source) and (t1.destination == t2.destination)):
+            return 0
+        else:
+            return 1
         
     def print_task_list(self):
         for task in self.task_list:

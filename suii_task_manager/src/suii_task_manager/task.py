@@ -41,7 +41,7 @@ class Task:
         return self.destination == self.source
 
     def __eq__(self, other): # override '==' operator
-        return other.type == self.type and other.source == self.source and other.destination == self.destination and other.object == self.object and other.container == self.container
+        return ((other.type == self.type) and (other.source == self.source) and (other.destination == self.destination) and (other.object == self.object) and (other.container == self.container))
 
     def __repr__(self): # string representation to use with print()
         return ("Type: " + self.type_str + ", Source: " + self.source_str + ", Destination: " + self.destination_str + ", Object: " + self.object_str + ", Container: " + self.container_str)

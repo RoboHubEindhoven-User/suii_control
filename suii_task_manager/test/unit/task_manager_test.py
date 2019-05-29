@@ -129,6 +129,7 @@ class TaskManagerTest(unittest.TestCase):
         # If reached here, format_place_task passed the test
         # So only assert len
         self.assertEquals(len(result), 3)
+
     def test_format_set_of_tasks(self):
         print ("Testing method: " + str(self._testMethodName))
         tm = TaskManager()
@@ -144,6 +145,24 @@ class TaskManagerTest(unittest.TestCase):
         tl.print_task_list()
         result = []
         result = tm.format_set_of_tasks(tl, result)
+
+        # self.assertEquals(len(result), 3)
+
+    def test_optimize_list(self):
+        print ("Testing method: " + str(self._testMethodName))
+        tm = TaskManager()
+        tl = TaskList()
+        
+        t1 = Task(t_type=1, source=2, destination=4, container=2, t_object=4)
+        tl.add_task(t1)
+        t2 = Task(t_type=1, source=2, destination=3, container=5, t_object=2)
+        tl.add_task(t2)
+        t3 = Task(t_type=1, source=3, destination=4, container=2, t_object=3)
+        tl.add_task(t3)
+
+        tl.print_task_list()
+        result = []
+        result = tm.optimize_list(tl, result)
 
     
 if __name__ == '__main__':

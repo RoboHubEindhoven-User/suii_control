@@ -1,0 +1,1 @@
+RobotArmPose6[] pose6

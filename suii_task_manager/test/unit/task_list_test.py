@@ -11,6 +11,7 @@ sys.path.append(os.path.abspath(os.path.join('../..', 'src/')))
 
 import unittest
 import rospy
+import yaml
 
 from suii_task_manager.task_protocol import TaskProtocol
 from suii_task_manager.task import Task
@@ -203,7 +204,7 @@ class TaskListTest(unittest.TestCase):
     def test_sort_by_src_and_dest(self):
         print ("Testing method: " + str(self._testMethodName))
         tl = TaskList()
-        tl.capacity = 3
+        # tl.capacity = 5
         
         t1 = Task(t_type=1, source=1, destination=4, container=2, t_object=4)
         tl.add_task(t1)
@@ -211,19 +212,29 @@ class TaskListTest(unittest.TestCase):
         tl.add_task(t2)
         t3 = Task(t_type=1, source=1, destination=3, container=2, t_object=3)
         tl.add_task(t3)
+        t4 = Task(t_type=1, source=5, destination=3, container=2, t_object=3)
+        tl.add_task(t4)
+        t5 = Task(t_type=1, source=3, destination=3, container=2, t_object=3)
+        tl.add_task(t5)
         
         # Check that they're not sorted
         self.assertEqual(tl.task_list.index(t1), 0)
         self.assertEqual(tl.task_list.index(t2), 1)
         self.assertEqual(tl.task_list.index(t3), 2)
+        self.assertEqual(tl.task_list.index(t4), 3)
+        self.assertEqual(tl.task_list.index(t5), 4)
 
         tl.sort_by_src_and_dest()
 
         # Check that they should be sorted
         # Right order is: t3 -> t1 -> t2
+        # print ("Task 3: " + str(tl.task_list.index(t3)) + ", Task 1: " + str(tl.task_list.index(t1)) + ", Task 2: " + str(tl.task_list.index(t2))  + ", Task 5: " + str(tl.task_list.index(t5)) + ", Task 4: " + str(tl.task_list.index(t4)))
         self.assertEqual(tl.task_list.index(t3), 0)
         self.assertEqual(tl.task_list.index(t1), 1)
-        self.assertEqual(tl.task_list.index(t2), 2)            
+        self.assertEqual(tl.task_list.index(t2), 2)     
+        self.assertEqual(tl.task_list.index(t4), 4)
+        self.assertEqual(tl.task_list.index(t5), 3) 
+
 
 if __name__ == '__main__':
     unittest.main()
