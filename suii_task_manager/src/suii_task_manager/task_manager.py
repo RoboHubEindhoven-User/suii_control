@@ -1,8 +1,26 @@
 #! /usr/bin/env python
+import rospy
+from suii_msgs.srv import DistanceToGoal
+
 from suii_task_manager.task_with_action import TaskWithAction 
 from suii_task_manager.task import Task
 from suii_task_manager.task_list import TaskList
 from suii_task_manager.task_protocol import TaskProtocol
+from suii_task_manager.distancemsg_converter import DistanceMsgConverter
+
+class DistanceToGoalClient:
+    @staticmethod
+    def call_serv(type_id, instance_id):
+        rospy.loginfo("Waiting for service...")
+        rospy.wait_for_service('get_distance')
+        rospy.loginfo("Service is up!")
+        try:
+            distance_to_goal = rospy.ServiceProxy('get_distance', DistanceToGoal)
+            res = distance_to_goal(type_id, instance_id)
+            return res.distance
+        except rospy.ServiceException:
+            print "Service call failed"
+        
 
 class TaskManager:
     MAX_HOLDING_CAPACITY = 3
@@ -19,9 +37,20 @@ class TaskManager:
         return result
 
     def format_pick_task(self, task, result):
+        type_id, instance_id = DistanceMsgConverter.string_to_distance_msg(task.destination_str)
+        rospy.loginfo("[Converted] Type: %d; Instance: %d" % (type_id, instance_id))
+        if (type_id != -1):
+            rospy.loginfo("Distance test: %f", DistanceToGoalClient.call_serv(type_id, instance_id))
         twa = TaskWithAction()
         twa.copy_from_task(task)
         twa.set_action(TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PICK"))
+        result.append(twa)
+        return result
+    
+    def format_pick_from_robot(self, task, result):
+        twa = TaskWithAction()
+        twa.set_action(TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PICK_FROM_ROBOT"))
+        twa.set_object(task.object)
         result.append(twa)
         return result
 
@@ -41,52 +70,55 @@ class TaskManager:
         for task in task_list.task_list:
             self.format_place_task(task, result)
         return result
+    
+    def format_place_to_robot(self, task, result):
+        twa = TaskWithAction()
+        twa.set_action(TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PLACE_TO_ROBOT"))
+        twa.set_object(task.object)
+        result.append(twa)
+        return result
         
     def format_set_of_tasks (self, task_list, result):
         unique_sources = task_list.get_unique_source()
 
         if (len(unique_sources) > 0):
-            print("\nPicking objects from " + str(len(unique_sources)) + " source(s)\n")
-            
             for key, value in unique_sources.items():
-                print("\nPicking objects from " + str(value) + "\n")
-                self.format_drive(key, result) # drive to first location
-
+                self.format_drive(key, result)                  # drive to first location
                 pick_up = task_list.get_tasks_by_source(key)    # get all the tasks with that source
 
                 # Pick up selectively
                 for task in pick_up.task_list:
                     if task.is_dest_same_as_src():
-                        print("Object has the same destination as source!\n")
                         self.format_pick_task(task, result)
                         self.format_place_task(task, result)
                         task_list.remove_task(task)
                     else:
                         self.format_pick_task(task, result)
+                        self.format_place_to_robot(task, result)
     
         unique_destinations = task_list.get_unique_destination()
 
         if len(unique_destinations) > 0:
-            print("\nPlacing objects at " + str(len(unique_destinations)) + " destination(s)\n")
             for key, value in unique_destinations.items():
-                print("\nPlacing objects at " + value + "...\n")
-                self.format_drive(key, result)                    # drive to first location
-                drop_off_list = task_list.get_tasks_by_destination(key)   # get all the tasks with that dest
-                self.format_place(drop_off_list, result) 
+                self.format_drive(key, result)                              # drive to first location
+                drop_off_list = task_list.get_tasks_by_destination(key)     # get all the tasks with that dest
+
+                for task in drop_off_list.task_list:
+                    self.format_pick_from_robot(task, result)
+                    self.format_place_task(task, result)
         return result
 
     def optimize_list(self, task_list, result):
         holding_list = TaskList(self.holding_capacity)
         format_now   = False
-        print("Sorting task list by source and destination...\n")
         task_list.sort_by_src_and_dest()
-        task_list.print_task_list()
+        # task_list.print_task_list()
         
         while not task_list.is_empty():
             if not holding_list.is_full():
                 (status, index, task) =  task_list.get_next_obj_to_pick()
-                task  = Task()
-                index = 0
+                # task  = Task()
+                # index = 0
                 if not status: # picked everything
                     break 
 

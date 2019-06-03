@@ -8,6 +8,7 @@ class LocationIdentifierType(Enum):
    WP=4, 'Way Point'
    PP=5, 'Precision Place'
    ROBOT=6, 'Robot'
+   EX=100, 'Exit'
 
    def __new__(cls, value, name):
         member = object.__new__(cls)

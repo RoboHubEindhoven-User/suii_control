@@ -17,6 +17,7 @@ from suii_task_manager.task import Task
 from suii_task_manager.task_with_action import TaskWithAction
 from suii_task_manager.task_list import TaskList
 from suii_task_manager.task_manager import TaskManager
+from suii_task_manager.action_list import ActionList
 
 class TaskManagerTest(unittest.TestCase):
     def test_constructor(self):
@@ -30,13 +31,14 @@ class TaskManagerTest(unittest.TestCase):
         print ("Testing method: " + str(self._testMethodName))
         tm = TaskManager()
 
-        result = []
+        result = ActionList()
         dest_key = TaskProtocol.look_up_value(TaskProtocol.location_dict, "Workstation 1")
         action_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "DRIVE")
 
-        result = tm.format_drive(dest_key, result)
-        self.assertEqual(len(result), 1)
-        for item in result:
+        result.action_list = tm.format_drive(dest_key, result.action_list)
+        self.assertEqual(len(result.action_list), 1)
+
+        for item in result.action_list:
             self.assertEqual(item.action, action_key)
             self.assertEqual(item.action_str, "DRIVE")
             self.assertEqual(item.destination, dest_key)
@@ -46,14 +48,14 @@ class TaskManagerTest(unittest.TestCase):
         print ("Testing method: " + str(self._testMethodName))
         tm = TaskManager()
 
-        result = []
+        result = ActionList()
         t = Task(t_type=1, source=2, destination=4, container=2, t_object=4)
 
-        result = tm.format_pick_task(t, result)
+        result.action_list = tm.format_pick_task(t, result.action_list)
         action_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PICK")
 
-        self.assertEqual(len(result), 1)
-        for item in result:
+        self.assertEqual(len(result.action_list), 1)
+        for item in result.action_list:
             self.assertEqual(item.action, action_key)
             self.assertEqual(item.action_str, "PICK")
             self.assertEqual(item.type, t.type)
@@ -66,6 +68,23 @@ class TaskManagerTest(unittest.TestCase):
             self.assertEqual(item.object_str, t.object_str)
             self.assertEqual(item.container, t.container)
             self.assertEqual(item.container_str, t.container_str)
+
+    def test_format_pick_from_robot(self):
+        print ("Testing method: " + str(self._testMethodName))
+        tm = TaskManager()
+
+        result = ActionList()
+        t = Task(t_type=1, source=2, destination=4, container=2, t_object=4)
+
+        result.action_list = tm.format_pick_from_robot(t, result.action_list)
+        action_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PICK_FROM_ROBOT")
+
+        self.assertEqual(len(result.action_list), 1)
+        for item in result.action_list:
+            self.assertEqual(item.action, action_key)
+            self.assertEqual(item.action_str, "PICK_FROM_ROBOT")
+            self.assertEqual(item.object, t.object)
+            self.assertEqual(item.object_str, t.object_str)
     
     def test_format_pick (self):
         print ("Testing method: " + str(self._testMethodName))
@@ -79,25 +98,26 @@ class TaskManagerTest(unittest.TestCase):
         t3 = Task(t_type=1, source=3, destination=4, container=2, t_object=3)
         tl.add_task(t3)
 
-        result = []
-        result = tm.format_pick(tl, result)
+        result = ActionList()
+        result.action_list = tm.format_pick(tl, result.action_list)
 
         # If reached here, format_pick_task passed the test
         # So only assert len
-        self.assertEquals(len(result), 3)
+        self.assertEquals(len(result.action_list), 3)
     
     def test_format_place_task(self):
         print ("Testing method: " + str(self._testMethodName))
         tm = TaskManager()
 
-        result = []
+        result = ActionList()
         t = Task(t_type=1, source=2, destination=4, container=2, t_object=4)
 
-        result = tm.format_place_task(t, result)
+        result.action_list = tm.format_place_task(t, result.action_list)
         action_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PLACE")
 
-        self.assertEqual(len(result), 1)
-        for item in result:
+        self.assertEqual(len(result.action_list), 1)
+
+        for item in result.action_list:
             self.assertEqual(item.action, action_key)
             self.assertEqual(item.action_str, "PLACE")
             self.assertEqual(item.type, t.type)
@@ -111,6 +131,23 @@ class TaskManagerTest(unittest.TestCase):
             self.assertEqual(item.container, t.container)
             self.assertEqual(item.container_str, t.container_str)
 
+    def test_format_place_to_robot(self):
+        print ("Testing method: " + str(self._testMethodName))
+        tm = TaskManager()
+
+        result = ActionList()
+        t = Task(t_type=1, source=2, destination=4, container=2, t_object=4)
+
+        result.action_list = tm.format_place_to_robot(t, result.action_list)
+        action_key = TaskProtocol.look_up_value(TaskProtocol.task_action_dict, "PLACE_TO_ROBOT")
+
+        self.assertEqual(len(result.action_list), 1)
+        for item in result.action_list:
+            self.assertEqual(item.action, action_key)
+            self.assertEqual(item.action_str, "PLACE_TO_ROBOT")
+            self.assertEqual(item.object, t.object)
+            self.assertEqual(item.object_str, t.object_str)
+
     def test_format_place (self):
         print ("Testing method: " + str(self._testMethodName))
         tm = TaskManager()
@@ -123,29 +160,32 @@ class TaskManagerTest(unittest.TestCase):
         t3 = Task(t_type=1, source=3, destination=4, container=2, t_object=3)
         tl.add_task(t3)
 
-        result = []
-        result = tm.format_place(tl, result)
+        result = ActionList()
+        result.action_list = tm.format_place(tl, result.action_list)
 
         # If reached here, format_place_task passed the test
         # So only assert len
-        self.assertEquals(len(result), 3)
+        self.assertEquals(len(result.action_list), 3)
 
     def test_format_set_of_tasks(self):
         print ("Testing method: " + str(self._testMethodName))
         tm = TaskManager()
         tl = TaskList()
         
-        t1 = Task(t_type=1, source=2, destination=4, container=2, t_object=4)
+        t1 = Task(t_type=1, source=2, destination=4, t_object=4)
         tl.add_task(t1)
-        t2 = Task(t_type=1, source=2, destination=3, container=5, t_object=2)
+        t2 = Task(t_type=1, source=3, destination=3, t_object=2)
         tl.add_task(t2)
-        t3 = Task(t_type=1, source=3, destination=4, container=2, t_object=3)
+        t3 = Task(t_type=1, source=2, destination=4, t_object=3)
         tl.add_task(t3)
+        
+        result = ActionList()
+        result.action_list = tm.format_set_of_tasks(tl, result.action_list)
 
-        tl.print_task_list()
-        result = []
-        result = tm.format_set_of_tasks(tl, result)
+        # for item in result:
+        #     print(item)
 
+        # TODO: Discuss workflow for this scenario
         # self.assertEquals(len(result), 3)
 
     def test_optimize_list(self):
@@ -153,16 +193,18 @@ class TaskManagerTest(unittest.TestCase):
         tm = TaskManager()
         tl = TaskList()
         
-        t1 = Task(t_type=1, source=2, destination=4, container=2, t_object=4)
+        t1 = Task(t_type=2, source=2, destination=1, t_object=4)
         tl.add_task(t1)
-        t2 = Task(t_type=1, source=2, destination=3, container=5, t_object=2)
+        t2 = Task(t_type=2, source=3, destination=3, t_object=2)
         tl.add_task(t2)
-        t3 = Task(t_type=1, source=3, destination=4, container=2, t_object=3)
+        t3 = Task(t_type=2, source=2, destination=4, t_object=3)
         tl.add_task(t3)
+        t4 = Task(t_type=2, source=5, destination=4, t_object=3)
+        tl.add_task(t4)
 
-        tl.print_task_list()
-        result = []
-        result = tm.optimize_list(tl, result)
+        result = ActionList()
+        result.action_list = tm.optimize_list(tl, result.action_list)
+        print(result)
 
     
 if __name__ == '__main__':

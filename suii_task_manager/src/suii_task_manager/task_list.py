@@ -102,6 +102,12 @@ class TaskList:
             return 0
         else:
             return 1
+
+    def __str__(self):
+        retstr = ''
+        for task in self.task_list:
+            retstr += repr(task) + '\n'
+        return retstr
         
     def print_task_list(self):
         for task in self.task_list:
