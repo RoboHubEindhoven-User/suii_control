@@ -228,7 +228,7 @@ class TaskListTest(unittest.TestCase):
 
         # Check that they should be sorted
         # Right order is: t3 -> t1 -> t2
-        # print ("Task 3: " + str(tl.task_list.index(t3)) + ", Task 1: " + str(tl.task_list.index(t1)) + ", Task 2: " + str(tl.task_list.index(t2))  + ", Task 5: " + str(tl.task_list.index(t5)) + ", Task 4: " + str(tl.task_list.index(t4)))
+        print ("Task 3: " + str(tl.task_list.index(t3)) + ", Task 1: " + str(tl.task_list.index(t1)) + ", Task 2: " + str(tl.task_list.index(t2))  + ", Task 5: " + str(tl.task_list.index(t5)) + ", Task 4: " + str(tl.task_list.index(t4)))
         self.assertEqual(tl.task_list.index(t3), 0)
         self.assertEqual(tl.task_list.index(t1), 1)
         self.assertEqual(tl.task_list.index(t2), 2)     
