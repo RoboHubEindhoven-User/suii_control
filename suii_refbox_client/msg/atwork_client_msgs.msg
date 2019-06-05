@@ -1,0 +1,4 @@
+atwork_ros_msgs/BenchmarkState benchmark
+atwork_ros_msgs/TriggeredConveyorBeltStatus conveyor_belt
+atwork_ros_msgs/Inventory inventory
+atwork_ros_msgs/TaskInfo tasks
