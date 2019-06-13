@@ -57,6 +57,13 @@ class TaskList(object):
             if (task.destination == destination):
                 task_list.add_task(task)
         return task_list
+    
+    def get_tasks_by_object(self, objectID):
+        task_list = TaskList()
+        for task in self.task_list:
+            if (task.object == objectID):
+                task_list.add_task(task)
+        return task_list
 
     def get_unique_destination(self):
         # Destination Dict {ID: String}
