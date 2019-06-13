@@ -55,6 +55,7 @@
   <build_export_depend>rospy</build_export_depend>
   <exec_depend>roscpp</exec_depend>
   <exec_depend>rospy</exec_depend>
+  
   <build_depend>suii_protocol</build_depend>
   <build_export_depend>suii_protocol</build_export_depend>
   <exec_depend>suii_protocol</exec_depend>

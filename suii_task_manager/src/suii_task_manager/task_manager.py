@@ -527,7 +527,7 @@ class TaskReplanner(object):
         
         elif (self.error_case == ErrorCase.CANNOT_PLACE):
             rospy.logwarn('Error object: [%d] - %s' % (error_task.object, error_task.object_str))
-
+            # God i hope this does not happen
             return True, AdditionalAction.NONE
         
         elif (self.error_case == ErrorCase.CANNOT_PLACE_TO_ROBOT):

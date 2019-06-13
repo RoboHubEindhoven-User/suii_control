@@ -1,7 +1,8 @@
 x add drive
 x add findhole
 x msg time for place in hole still the same or?
-- handle pick/place err
-- findhole fails: pick + place on table
+x handle pick/place err
+x findhole fails: pick + place on table
+x handle replan() returns false
 
-- handle replan() returns false
+- dont put all the classes in taskmanager?
