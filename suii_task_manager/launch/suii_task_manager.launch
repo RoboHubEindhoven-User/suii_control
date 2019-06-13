@@ -1,6 +1,12 @@
 <launch>
-    <node pkg="suii_task_manager" type="suii_task_manager_node.py"
+    <node pkg="suii_protocol" type="task_protocol.py" name="suii_protocol"></node>
+    <node pkg="suii_task_manager" type="task_manager_handler.py"
           name="suii_task_manager" output="screen">
+        
+        <!-- verbose logging -->
+        <param name="verbose" type="bool" value="true"></param>
+
+        <param name="yaml_path" value="$(find suii_protocol)/navigation_waypoints.yaml"></param>
         <param name="waypoint_path" value="$(find suii_task_manager)/src/suii_task_manager/config/waypoints.yaml"/>
         <param name="coordinate_path" value="$(find suii_task_manager)/src/suii_task_manager/config/coordinate.yaml"/>
     </node>

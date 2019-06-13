@@ -1,5 +1,6 @@
 <launch>
-    <node pkg="suii_task_executor" type="suii_task_executor_node.py"
+    <node pkg="suii_task_executor" type="task_executor_handler.py"
           name="suii_task_executor" output="screen">
+        <param name="yaml_path" value="$(find suii_protocol)/navigation_waypoints.yaml"></param>
     </node>
 </launch>
