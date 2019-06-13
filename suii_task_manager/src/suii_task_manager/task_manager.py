@@ -154,7 +154,7 @@ class TaskManager(object):
         # Loggity log
         rospy.loginfo("Replan finished")
         rospy.loginfo("##################")
-        print(self.output_list)
+        # print(self.output_list)
         return True
     
     ## Clear all the lists

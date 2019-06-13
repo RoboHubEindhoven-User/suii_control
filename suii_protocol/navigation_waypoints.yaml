@@ -2,7 +2,7 @@ waypoint/waypoint1:
   location:
     type: 0
     instance_id: 1
-    description: Entrance
+    description: Way Point 1
   service_area:
     id: 0
     length: 2
@@ -12,104 +12,35 @@ waypoint/waypoint1:
     tilt_angle: 2
   pose:
     position:
-      x: 25.02
-      y: 10.35
-      z: 23.0
+      x: 0.287342134598
+      y: -1.71873325674
+      z: 0.0
     orientation:
-      x: 4
-      y: 5
-      z: 6
-      w: 1.5
+      x: 0.0
+      y: 0.0
+      z: -0.7977
+      w: 0.6029
   should_scan: true
 waypoint/waypoint2:
   location:
-    type: 1
+    type: 0
     instance_id: 1
-    description: Shelf 1
-  service_area:
-    id: 0
-    length: 0
-    width: 0
-    height: 0
-    diameter: 0
-    tilt_angle: 0
-  pose:
-    position:
-      x: 0
-      y: 0
-      z: 0
-    orientation:
-      x: 0
-      y: 0
-      z: 0
-      w: 0
-  should_scan: true
-waypoint/waypoint3:
-  location:
-    type: 4
-    instance_id: 1
-    description: Way Point 1
-  service_area:
-    id: 0
-    length: 0
-    width: 0
-    height: 0
-    diameter: 0
-    tilt_angle: 0
-  pose:
-    position:
-      x: 0
-      y: 0
-      z: 0
-    orientation:
-      x: 0
-      y: 0
-      z: 0
-      w: 0
-  should_scan: true
-waypoint/waypoint4:
-  location:
-    type: 4
-    instance_id: 2
     description: Way Point 2
   service_area:
     id: 0
-    length: 0
-    width: 0
-    height: 0
-    diameter: 0
-    tilt_angle: 0
+    length: 2
+    width: 5
+    height: 3.1415
+    diameter: 5
+    tilt_angle: 2
   pose:
     position:
-      x: 0
-      y: 0
-      z: 0
+      x: 0.3812
+      y: 0.9344
+      z: 0.0
     orientation:
-      x: 0
-      y: 0
-      z: 0
-      w: 0
-  should_scan: true
-waypoint/waypoint5:
-  location:
-    type: 4
-    instance_id: 3
-    description: Way Point 3
-  service_area:
-    id: 0
-    length: 0
-    width: 0
-    height: 0
-    diameter: 0
-    tilt_angle: 0
-  pose:
-    position:
-      x: 0
-      y: 0
-      z: 0
-    orientation:
-      x: 0
-      y: 0
-      z: 0
-      w: 0
+      x: 0.0
+      y: 0.0
+      z: 0.1703
+      w: 0.9853
   should_scan: true
