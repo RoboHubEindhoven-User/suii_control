@@ -62,8 +62,10 @@ class TaskMangerHandler():
         self.task_manager.error_index = msg.error_index
 
         # Replan 
-        self.task_manager.replan()
-        self.send_to_mux(self.task_manager.output_list)
+        if (self.task_manager.replan()):
+            self.send_to_mux(self.task_manager.output_list)
+        else:
+            rospy.logfatal("TM cannot handle this error.")
 
     def task_cb_convert_data(self, msg):
         converted_list = RefBoxConverter.ros_msg_to_task_list_object(msg)

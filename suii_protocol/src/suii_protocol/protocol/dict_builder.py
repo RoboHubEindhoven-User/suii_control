@@ -1,6 +1,9 @@
 #! /usr/bin/env python
 
+## ===== DictBuilder ===== ##
+# Build protocol dictionaries for TaskProtocol
 class DictBuilder:
+    # Build a dictionary that resembles the enum class
     @staticmethod
     def build_dict(enum_class):
         output_dict = {}
@@ -16,6 +19,9 @@ class DictBuilder:
             i = i + 1
         return output_dict
 
+    # Build a dictionary of the enum_class with instance_ids
+    # The instance ids are from 1 to [max_instance_id]
+    # exception_lists = list of ID's that we won't generate instance ids for
     @staticmethod
     def build_dict_with_instance_id(enum_class, max_instance_id=3, exception_lists=[]):
         output_dict = {}

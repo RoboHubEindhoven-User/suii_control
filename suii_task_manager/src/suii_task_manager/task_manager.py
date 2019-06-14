@@ -15,6 +15,8 @@ from suii_protocol.protocol.enum_task_type import TaskType
 from suii_protocol.protocol.enum_location_identifier import LocationIdentifierType
 from enum import Enum
 
+EXIT_KEY = TaskProtocol.look_up_value(TaskProtocol.location_dict, LocationIdentifierType.EX.fullname)
+
 ## ===== Main class ==== ##
 class TaskManager(object):
     MAX_HOLDING_CAPACITY = 3
@@ -24,11 +26,11 @@ class TaskManager(object):
         self.holding_capacity = holding_capacity 
         self.yaml_path = yaml_path
         self.verbose = verbose
+        self.MAX_REPLAN_ATTEMPTS = 10
 
         # Here come the lists
         self.task_list = TaskList()                 # The current one
         self.task_list_last_updated = TaskList()    # Last replanned task list
-        self.task_list_original = TaskList()        # Original task list from refbox
 
         self.replan_list = ActionList()             # Action list from mux
         self.error_index = -1                       # Error index
@@ -49,7 +51,6 @@ class TaskManager(object):
         self.task_list_type = task_list.task_list[0].type
 
         # Save the original + set the current one
-        self.task_list_original = task_list.make_duplicate()
         self.task_list_last_updated = task_list.make_duplicate()
         self.task_list = task_list.make_duplicate()
 
@@ -70,11 +71,45 @@ class TaskManager(object):
 
     def call_replanner(self):
         self.task_replanner.reinitialize_input(self.replan_list, self.task_list_last_updated, self.error_index)
-        self.task_replanner.replan()
+        success, additional_action = self.task_replanner.replan()
+        if (not success):
+            return False, AdditionalAction.NONE
+
         # The new task_list
         self.task_list = self.task_replanner.output_list.make_duplicate()
         # Save the last replanned ones
         self.task_list_last_updated = self.task_replanner.output_list.make_duplicate()
+        return True, additional_action
+    
+    def handle_additional_action(self, additional_action, error_task):
+        if (additional_action == AdditionalAction.DUMP_ITEM_ON_HAND):
+            additional_actions = ActionList()
+            rospy.logwarn("Dumping object [%s] to the current table" % (error_task.object_str))
+            TaskFormatter.format_place_task(error_task, additional_actions.task_list)
+            rospy.loginfo("Additional actions:")
+            print(additional_actions)
+            return additional_actions
+        elif (additional_action == AdditionalAction.DUMP_ITEM_ON_HAND_AND_PICK_TO_CAP):
+            additional_actions = ActionList()
+            rospy.logwarn("Dumping object [%s] to the current table" % (error_task.object_str))
+            TaskFormatter.format_place_task(error_task, additional_actions.task_list)
+            current_cap = self.holding_capacity - self.task_replanner.items_on_hand
+            rospy.logwarn("Current capacity is: ", current_cap)
+
+            rospy.loginfo("Additional actions:")
+            print(additional_actions)
+            return additional_actions
+        elif (additional_action == AdditionalAction.PICK_AND_DUMP_ON_TABLE):
+            additional_actions = ActionList()
+            rospy.logwarn("Picking object [%s] from ROBOT" % (error_task.object_str))
+            TaskFormatter.format_pick_from_robot(error_task, additional_actions.task_list)
+            rospy.logwarn("Dumpinggggg. Please ignore random destination.")
+            error_task.set_destination(1) # Set a random destination so mux doesn't call precision place
+            TaskFormatter.format_place_task(error_task, additional_actions.task_list)
+            rospy.loginfo("Additional actions:")
+            print(additional_actions)
+            return additional_actions
+        return None
 
     ## Interface that task_manager_handler calls to optimize list
     def optimize_list(self):
@@ -89,12 +124,26 @@ class TaskManager(object):
     ## Interface that task_manager_handler calls when received error from mux
     def replan(self):
         # Loggity log
-        rospy.logwarn("Error @ task: ")
+        rospy.logwarn("Error @ index [%d] with task: " % self.error_index)
         rospy.logwarn(self.replan_list.task_list[self.error_index])
 
         # Get new task list
         rospy.loginfo("Making new task list...")
-        self.call_replanner()
+        success, additional_action = self.call_replanner()
+        attempt = 1
+
+        while (not success):
+            if (attempt > self.MAX_REPLAN_ATTEMPTS):
+                # we are slightly f*cked
+                rospy.logerr("Max attempt reached. Cannot replan.")
+                rospy.logerr("Please check if there is error case and error handling behavior defined for this error")
+                rospy.logfatal("Abort mission.")
+                return False
+            rospy.logerr("Cannot replan. Will retry: %d/%d times" % (attempt, self.MAX_REPLAN_ATTEMPTS))
+            success, additional_action = self.call_replanner()
+            attempt = attempt + 1
+
+        rospy.loginfo("New list made successfully!")
 
         # Optimize
         if (self.task_list_type == int(TaskType.TRANSPORTATION)):
@@ -103,17 +152,25 @@ class TaskManager(object):
         elif (self.task_list_type == int(TaskType.NAVIGATION)):
             rospy.loginfo("Sending new task list to navigation optimizer...")
             self.optimize_navigation()
+
+        # Handle additional actions
+        rospy.loginfo(additional_action)
+        if (additional_action != AdditionalAction.NONE):
+            additional_action_list = self.handle_additional_action(additional_action, self.replan_list.task_list[self.error_index])
+            if (additional_action_list != None):
+                # I'm appending to the top of the list now
+                self.output_list.task_list = additional_action_list.task_list + self.output_list.task_list
         
         # Loggity log
         rospy.loginfo("Replan finished")
         rospy.loginfo("##################")
         print(self.output_list)
+        return True
     
     ## Clear all the lists
     def clear(self):
         self.task_list.clear_task()
         self.task_list_last_updated.clear_task()
-        self.task_list_original.clear_task()
         self.output_list.clear_task()
 
 ## ===== Service clients ===== ##
@@ -149,29 +206,33 @@ class TaskFormatter(object):
     @staticmethod
     def format_pick_task(task, result):
         twa = TaskWithAction()
-        twa.copy_from_task(task)
+        # twa.copy_from_task(task)
+        twa.set_object(task.object)
         twa.set_action(int(TaskActionType.PICK))
         result.append(twa)
     
     @staticmethod
     def format_pick_from_robot(task, result):
         twa = TaskWithAction()
-        twa.set_action(int(TaskActionType.PICK_FROM_ROBOT))
+        # twa.copy_from_task(task)
         twa.set_object(task.object)
+        twa.set_action(int(TaskActionType.PICK_FROM_ROBOT))
         result.append(twa)
 
     @staticmethod
     def format_place_task (task, result):
         twa = TaskWithAction()
-        twa.copy_from_task(task)
+        # twa.copy_from_task(task)
+        twa.set_object(task.object)
         twa.set_action(int(TaskActionType.PLACE))
         result.append(twa)
     
     @staticmethod
     def format_place_to_robot(task, result):
         twa = TaskWithAction()
-        twa.set_action(int(TaskActionType.PLACE_TO_ROBOT))
+        # twa.copy_from_task(task)
         twa.set_object(task.object)
+        twa.set_action(int(TaskActionType.PLACE_TO_ROBOT))
         result.append(twa)
 
     @staticmethod
@@ -183,14 +244,10 @@ class TaskFormatter(object):
     @staticmethod
     def format_find_hole(task, result):
         twa = TaskWithAction()
+        # twa.copy_from_task(task)
         twa.set_object(task.object)
         twa.set_action(int(TaskActionType.FIND_HOLE))
         result.append(twa)
-
-## ===== ErrorCase Enum ===== ##
-# To keep track of what went wrong this time
-class ErrorCase(Enum):
-    CANNOT_DRIVE_TO_LOC = 1
 
 ## ===== TaskSorter ===== ##
 # Sort list based on distances (and other things, later)
@@ -275,7 +332,7 @@ class TaskTransportOptimizer(object):
     def prioritize_task_list(self, sort_list):
         if self.verbose: rospy.loginfo("Prioritizing task list...")
         sort_list.sort_by_src_and_dest() # may not be necessary since we're sorting by distances
-        self.task_sorter.sort_list_by_distance_src_dest(sort_list)
+        # self.task_sorter.sort_list_by_distance_src_dest(sort_list)
 
     def add_task_to_capacity (self, holding_list):
         if not holding_list.is_full():
@@ -339,15 +396,13 @@ class TaskTransportOptimizer(object):
                 # Schedule a drop off
                 # LocationIdentifierType.PP = Type of the precision platform
                 if (value == LocationIdentifierType.PP.fullname):
-                    if self.verbose: rospy.loginfo("Drop off precision-style")
                     self.drop_off_precision(drop_off_list)
                 else:
-                    if self.verbose: rospy.loginfo("Regular drop off")
                     self.drop_off_normal(drop_off_list)
 
     def optimize(self):
         # Clear things
-        holding_list = TaskList()
+        holding_list = TaskList(capacity=self.holding_capacity)
         holding_list_ok = False
 
         self.prioritize_task_list(self.input_list)
@@ -379,6 +434,8 @@ class TaskTransportOptimizer(object):
         self.input_list.remove_task_in_list(holding_list.task_list)
         holding_list.clear_task()
 
+        TaskFormatter.format_drive(EXIT_KEY, self.output_list.task_list)  
+
         return True # well i should hope it doesn't error
 
 ## ===== TaskTransportOptimizer ===== ##
@@ -404,7 +461,28 @@ class TaskNavigationOptimizer(object):
         if self.verbose: print(self.input_list)
         for item in self.input_list.task_list:
             TaskFormatter.format_drive(item.destination, self.output_list.task_list)
+        TaskFormatter.format_drive(EXIT_KEY, self.output_list.task_list)  
         return True
+
+## ===== ErrorCase Enum ===== ##
+# To keep track of what went wrong this time
+class ErrorCase(Enum):
+    UNDEFINED = -1,
+    CANNOT_PICK = 1,
+    CANNOT_PICK_FROM_ROBOT = 2,
+    CANNOT_PLACE = 3,
+    CANNOT_PLACE_TO_ROBOT = 4,
+    CANNOT_DRIVE = 5,
+    CANNOT_MOVE_TO_DRIVE = 6,
+    CANNOT_FIND_HOLE = 7
+
+## ===== ErrorCase Enum ===== ##
+# To keep track of additional actions
+class AdditionalAction(Enum):
+    NONE = 0,
+    DUMP_ITEM_ON_HAND = 1,
+    DUMP_ITEM_ON_HAND_AND_PICK_TO_CAP = 2,
+    PICK_AND_DUMP_ON_TABLE = 3
 
 ## ===== TaskReplanner ===== ##
 # Output a new TaskList() given the error list
@@ -413,11 +491,39 @@ class TaskReplanner(object):
     def __init__(self, yaml_path, verbose=False):
         self.input_list = ActionList()
         self.original_task_list = None
+        self.in_progress_list = ActionList()
         self.output_list = TaskList()
+        self.items_on_hand = -1
         self.task_sorter = TaskSorter(yaml_path)
         self.error_index = -1
         self.error_case = -1
         self.verbose = verbose
+
+    def convert_task_to_actions(self, task):
+        actions = ActionList()
+        if (task.type == int(TaskType.NAVIGATION)):
+            TaskFormatter.format_drive(task.destination, actions.task_list)
+        elif (task.type == int(TaskType.TRANSPORTATION)):
+            TaskFormatter.format_drive(task.source, actions.task_list)
+
+            if (task.destination_str == LocationIdentifierType.PP.fullname): # PPT
+                TaskFormatter.format_pick_task(task, actions.task_list)
+                TaskFormatter.format_place_to_robot(task, actions.task_list)
+                TaskFormatter.format_drive(task.destination, actions.task_list)
+                TaskFormatter.format_find_hole(task, actions.task_list)
+                TaskFormatter.format_pick_from_robot(task, actions.task_list)
+                TaskFormatter.format_place_task(task, actions.task_list)
+            else:
+                if (task.is_dest_same_as_src()):
+                    TaskFormatter.format_pick_task(task, actions.task_list)
+                    TaskFormatter.format_place_task(task, actions.task_list)
+                else:
+                    TaskFormatter.format_pick_task(task, actions.task_list)
+                    TaskFormatter.format_place_to_robot(task, actions.task_list)
+                    TaskFormatter.format_drive(task.destination, actions.task_list)
+                    TaskFormatter.format_pick_from_robot(task, actions.task_list)
+                    TaskFormatter.format_place_task(task, actions.task_list)
+        return actions
 
     def reinitialize_input(self, input, original_list, error_index):
         self.input_list = input
@@ -425,29 +531,137 @@ class TaskReplanner(object):
         self.error_index = error_index
         self.output_list.clear_task()
         self.error_case = None
+        self.items_on_hand = -1
 
     def check_error_case(self, task):
-        if (task.action == int(TaskActionType.DRIVE)):
-            return ErrorCase.CANNOT_DRIVE_TO_LOC
+        if (task.action == int(TaskActionType.PICK)):
+            return ErrorCase.CANNOT_PICK
+        elif (task.action == int(TaskActionType.PICK_FROM_ROBOT)):
+            return ErrorCase.CANNOT_PICK_FROM_ROBOT
+        elif (task.action == int(TaskActionType.PLACE)):
+            return ErrorCase.CANNOT_PLACE    
+        elif (task.action == int(TaskActionType.PLACE_TO_ROBOT)):
+            return ErrorCase.CANNOT_PLACE_TO_ROBOT
+        elif (task.action == int(TaskActionType.DRIVE)):
+            return ErrorCase.CANNOT_DRIVE
+        elif (task.action == int(TaskActionType.MOVE_TO_DRIVE)):
+            return ErrorCase.CANNOT_MOVE_TO_DRIVE
+        elif (task.action == int(TaskActionType.FIND_HOLE)):
+            return ErrorCase.CANNOT_FIND_HOLE 
+        return ErrorCase.UNDEFINED
+
+    def not_done_tasks(self, todo_list, done_list):
+        not_done = ActionList()
+        for item in todo_list:
+            if not (item in done_list):
+                not_done.task_list.append(item) 
+        return not_done
+
+    def check_success(self):
+        rospy.loginfo("Original list")
+        print(self.original_task_list)
+
+        successful_actions = self.input_list.task_list[:(self.error_index-1)]
+
+        rospy.loginfo("Successfully done:")
+
+        for task in self.original_task_list.task_list:
+            task_actions = self.convert_task_to_actions(task)
+            not_done = self.not_done_tasks(task_actions.task_list, successful_actions)
+                    
+            if (len(not_done.task_list) == 0):
+                print(task)
+                self.original_task_list.remove_task(task)
+
+        rospy.loginfo("To do:")
+        print(self.original_task_list)
+    
+    def check_in_progress(self, check_list):
+        successful_actions = self.input_list.task_list[:(self.error_index-1)]
+
+        for task in check_list.task_list:
+            task_actions = self.convert_task_to_actions(task)
+            not_done = self.not_done_tasks(task_actions.task_list, successful_actions)
+            for item in not_done.task_list:
+                self.in_progress_list.task_list.append(item)
+
+        rospy.loginfo("Leftovers:")
+        print(self.in_progress_list)
+
+    def count_current_items_on_back(self):
+        successful_actions = self.input_list.task_list[:(self.error_index-1)]
+        sum_item = 0
+        for item in successful_actions:
+            if (item.action == int(TaskActionType.PLACE_TO_ROBOT)):
+                sum_item = sum_item + 1
+            elif (item.action == int(TaskActionType.PLACE)):
+                sum_item = sum_item - 1
+        self.items_on_hand = sum_item 
+        rospy.loginfo("Nr. of items on back: %d" % self.items_on_hand)
 
     def replan(self):
-        self.error_case = self.check_error_case(self.input_list.task_list[self.error_index])
-        self.output_list = self.original_task_list.make_duplicate()
+        # THIS FEATURE IS IN PROGRESS
+        return True, AdditionalAction.NONE 
+        
+        # Check success
+        self.count_current_items_on_back()
+        self.check_success()
+
+        # Check error
+        error_task = self.input_list.task_list[self.error_index]
+        self.error_case = self.check_error_case(error_task)
         rospy.logwarn(self.error_case)
 
-        if (self.error_case == ErrorCase.CANNOT_DRIVE_TO_LOC):
-            if self.verbose:
-                rospy.logwarn('Cannot drive to location ID %d - %s' % (self.input_list.task_list[self.error_index].destination, self.input_list.task_list[self.error_index].destination_str))
-                rospy.logwarn('Removing all tasks related to that location...')
-            self.remove_all_tasks_with_loc(self.input_list.task_list[self.error_index].destination)
-            if self.verbose:
-                rospy.loginfo("Task list after removing location")
-                print(self.output_list)
-        return True
+        # Make a duplicate of the original list
+        # Then later remove the unnecessary ones
+        self.output_list = self.original_task_list.make_duplicate()
+        if (self.error_case == ErrorCase.CANNOT_PICK or
+            self.error_case == ErrorCase.CANNOT_PICK_FROM_ROBOT):
+            rospy.logwarn('Error object: [%d] - %s' % (error_task.object, error_task.object_str))
+            rospy.logwarn('Removing all tasks related to that object...')  
+            self.remove_all_tasks_with_obj(error_task.object, self.output_list)
+            rospy.loginfo("Final todo list:")
+            print(self.output_list)
+            rospy.loginfo("Checking leftovers:")
+            self.check_in_progress(self.output_list)
+            return True, AdditionalAction.NONE
+        
+        # elif (self.error_case == ErrorCase.CANNOT_PLACE):
+        #     rospy.logwarn('Error object: [%d] - %s' % (error_task.object, error_task.object_str))
+        #     # God i hope this does not happen
+        #     return True, AdditionalAction.NONE
+        
+        # elif (self.error_case == ErrorCase.CANNOT_PLACE_TO_ROBOT):
+        #     rospy.logwarn('Error object: [%d] - %s' % (error_task.object, error_task.object_str))
+        #     rospy.logwarn('Removing all tasks related to that object...')  
+        #     self.remove_all_tasks_with_obj(error_task.object, self.output_list)
+        #     rospy.loginfo("Task list after removing")
+        #     print(self.output_list)
+        #     return True, AdditionalAction.DUMP_ITEM_ON_HAND
+        
+        # elif (self.error_case == ErrorCase.CANNOT_DRIVE):
+        #     rospy.logwarn('Error location: [%d] - %s' % (error_task.destination, error_task.destination_str))
+        #     rospy.logwarn('Removing all tasks related to that location...')  
+        #     self.remove_all_tasks_with_loc(error_task.destination, self.output_list)
+        #     rospy.loginfo("Task list after removing")
+        #     print(self.output_list)
+        #     return True, AdditionalAction.NONE 
+        
+        # elif (self.error_case == ErrorCase.CANNOT_FIND_HOLE):
+        #     rospy.logwarn('Error object: [%d] - %s' % (error_task.object, error_task.object_str))
+        #     rospy.logwarn('Removing all tasks related to that object...')  
+        #     self.remove_all_tasks_with_obj(error_task.object, self.output_list)
+        #     rospy.loginfo("Task list after removing")
+        #     print(self.output_list)
+        #     return True, AdditionalAction.PICK_AND_DUMP_ON_TABLE
+        return False, AdditionalAction.NONE # undefined error case
 
-    def remove_all_tasks_with_loc(self, destID):
-        src_tasks = self.output_list.get_tasks_by_source(destID)
-        dest_tasks = self.output_list.get_tasks_by_destination(destID)
-        self.output_list.remove_task_in_list(src_tasks.task_list)
-        self.output_list.remove_task_in_list(dest_tasks.task_list)
-
+    def remove_all_tasks_with_loc(self, destID, remove_list):
+        src_tasks = remove_list.get_tasks_by_source(destID)
+        dest_tasks = remove_list.get_tasks_by_destination(destID)
+        remove_list.remove_task_in_list(src_tasks.task_list)
+        remove_list.remove_task_in_list(dest_tasks.task_list)
+    
+    def remove_all_tasks_with_obj(self, objectID, remove_list):
+        obj_tasks = remove_list.get_tasks_by_object(objectID)
+        remove_list.remove_task_in_list(obj_tasks.task_list)
