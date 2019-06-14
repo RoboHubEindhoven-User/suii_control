@@ -1,46 +1,96 @@
 waypoint/waypoint1:
+  id: 1
   location:
     type: 0
     instance_id: 1
-    description: Way Point 1
+    description: Workstation 5
   service_area:
     id: 0
-    length: 2
-    width: 5
-    height: 3.1415
-    diameter: 5
-    tilt_angle: 2
+    length: 0
+    width: 0
+    height: 0
+    diameter: 0
+    tilt_angle: 0
   pose:
     position:
-      x: 0.287342134598
-      y: -1.71873325674
-      z: 0.0
+      x: 6.628047992910288
+      y: -6.154934777537087
+      z: 0
     orientation:
-      x: 0.0
-      y: 0.0
-      z: -0.7977
-      w: 0.6029
+      x: 0
+      y: 0
+      z: -0.2918323883608984
+      w: 0.9564694752597042
   should_scan: true
 waypoint/waypoint2:
+  id: 2
   location:
-    type: 0
-    instance_id: 1
-    description: Way Point 2
+    type: 2
+    instance_id: 3
+    description: Workstation 2
   service_area:
     id: 0
-    length: 2
-    width: 5
-    height: 3.1415
-    diameter: 5
-    tilt_angle: 2
+    length: 0
+    width: 0
+    height: 5
+    diameter: 0
+    tilt_angle: 0
   pose:
     position:
-      x: 0.3812
-      y: 0.9344
-      z: 0.0
+      x: 7.465404919299965
+      y: -5.211653107869013
+      z: 0
     orientation:
-      x: 0.0
-      y: 0.0
-      z: 0.1703
-      w: 0.9853
+      x: 0
+      y: 0
+      z: 0.9498632734492434
+      w: 0.3126655749395638
+  should_scan: true
+waypoint/waypoint3:
+  id: 3
+  location:
+    type: 2
+    instance_id: 2
+    description: Workstation 6
+  service_area:
+    id: 0
+    length: 0
+    width: 0
+    height: 5
+    diameter: 0
+    tilt_angle: 0
+  pose:
+    position:
+      x: 10.19763893249952
+      y: -4.532667798402109
+      z: 0
+    orientation:
+      x: 0
+      y: 0
+      z: -0.01586066084486942
+      w: 0.9998742118074473
+  should_scan: true
+waypoint/waypoint4:
+  id: 4
+  location:
+    type: 100
+    instance_id: 1
+    description: Exit
+  service_area:
+    id: 0
+    length: 0
+    width: 0
+    height: 0
+    diameter: 0
+    tilt_angle: 0
+  pose:
+    position:
+      x: 6.62754400036924
+      y: -6.823139116001762
+      z: 0
+    orientation:
+      x: 0
+      y: 0
+      z: -0.01369462234622873
+      w: 0.9999062242624526
   should_scan: true

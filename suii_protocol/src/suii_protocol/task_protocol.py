@@ -18,7 +18,7 @@ class TaskProtocol(object):
 
     # Make, for each location, 500 instance IDs, except the ones with ID's given in the list
     location_dict = DictBuilder.build_dict_with_instance_id(LocationIdentifierType, max_instance_id=500, 
-        exception_lists=[int(LocationIdentifierType.EX), int(LocationIdentifierType.ROBOT), int(LocationIdentifierType.CB), int(LocationIdentifierType.PP)])
+        exception_lists=[int(LocationIdentifierType.EX), int(LocationIdentifierType.ROBOT), int(LocationIdentifierType.CB), int(LocationIdentifierType.PP), int(LocationIdentifierType.RT)])
 
     # Look up key in dictionary
     @staticmethod
@@ -48,5 +48,5 @@ class TaskProtocol(object):
         for key, value in dictionary.items():
             print("Key: '%s'; Value: '%s'" % (key, value))
 
-# print('WP1: ', TaskProtocol.look_up_value(TaskProtocol.location_dict, 'Way Point 1'))
+# print('WP5: ', TaskProtocol.look_up_value(TaskProtocol.location_dict, 'Way Point 5'))
 # print('WP2: ', TaskProtocol.look_up_value(TaskProtocol.location_dict, 'Way Point 2'))
