@@ -54,6 +54,10 @@
   <exec_depend>suii_control_msgs</exec_depend>
 
 
+  <build_depend>suii_mux_manager_comm</build_depend>
+  <build_export_depend>suii_mux_manager_comm</build_export_depend>
+  <exec_depend>suii_mux_manager_comm</exec_depend>
+
   <build_depend>suii_protocol</build_depend>
   <build_export_depend>suii_protocol</build_export_depend>
   <exec_depend>suii_protocol</exec_depend>

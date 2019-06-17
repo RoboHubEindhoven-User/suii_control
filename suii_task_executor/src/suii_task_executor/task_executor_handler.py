@@ -2,7 +2,7 @@
 
 import rospy 
 from suii_msgs.msg import SuiiTask, SuiiTaskList
-
+from std_msgs.msg import Float32
 from zinki_smachine import *
 
 from states.idle_state import IdleState
@@ -22,6 +22,7 @@ class TaskExecutor:
     def __init__(self):
         self.fsm = StateMachine(name='TaskExecutorStateMachine')
         self.input_sub = rospy.Subscriber('/suii_task_executor/input', SuiiTaskList, self.input_callback)
+
         self.action_list = ActionList()
 
         # States
@@ -45,10 +46,15 @@ class TaskExecutor:
         rospy.loginfo('Handler initialized!')
 
     def input_callback (self, msg):
-        rospy.loginfo("new input received")
-        self.fsm.states[StateName.CONVERT_DATA_STATE].buffer = msg
-        self.fsm.transition(TransitionName.CONVERT_DATA_STATE)
-        rospy.loginfo("New task list to buffer!") 
+        try:
+            rospy.loginfo("new input received")
+            # Pass data down to ConvertData's buffer so it can convert
+            self.fsm.states[StateName.CONVERT_DATA_STATE].buffer = msg
+            self.fsm.transition(TransitionName.CONVERT_DATA_STATE)
+            rospy.loginfo("New task list to buffer!") 
+        except KeyError:
+            rospy.logwarn("Some data received, but state machine wasn't initialized.")
+            rospy.logwarn("Try sending the data again after initialization.")
 
     def execute(self):
         self.fsm.execute()

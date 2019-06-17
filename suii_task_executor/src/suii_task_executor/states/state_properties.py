@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 from enum import Enum
 
+## Names of states and transitions ##
+
 class StateName(Enum):
     IDLE_STATE              = "idle_state"
     CONVERT_DATA_STATE      = "convert_data_state"

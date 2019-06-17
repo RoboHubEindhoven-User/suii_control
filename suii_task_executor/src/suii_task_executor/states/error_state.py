@@ -10,6 +10,8 @@ from suii_mux_manager_comm.action_list import ActionList
 from suii_mux_manager_comm.task_with_action import TaskWithAction
 from suii_mux_manager_comm.task import Task, TaskStatus
 
+## ===== ErrorState ===== ##
+# Action: Publishes error to TaskManager
 class ErrorState(State):
     def __init__(self, fsm):
         super(ErrorState, self).__init__(fsm)
@@ -24,8 +26,12 @@ class ErrorState(State):
         self.propagate_error()
     
     def propagate_error(self):
+        # Convert
         self.error_list = MuxConverter.action_list_to_ros(self.list.task_list, error_index=self.error_index)
+        # Set status as failed
         self.error_list.tasks[self.error_index].status = int(TaskStatus.FAILED)
+        # Publish
         rospy.loginfo("Publishing list with error...")
         self.error_pub.publish(self.error_list)
+        # Go to wait
         self.fsm.transition(TransitionName.IDLE_STATE)
