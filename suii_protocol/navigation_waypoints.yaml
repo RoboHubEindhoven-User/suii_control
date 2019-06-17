@@ -3,7 +3,7 @@ waypoint/waypoint1:
   location:
     type: 0
     instance_id: 1
-    description: Workstation 5
+    description: Workstation 10
   service_area:
     id: 0
     length: 0
@@ -27,7 +27,7 @@ waypoint/waypoint2:
   location:
     type: 2
     instance_id: 3
-    description: Workstation 2
+    description: Way Point 10
   service_area:
     id: 0
     length: 0
@@ -51,7 +51,7 @@ waypoint/waypoint3:
   location:
     type: 2
     instance_id: 2
-    description: Workstation 6
+    description: Way Point 9
   service_area:
     id: 0
     length: 0

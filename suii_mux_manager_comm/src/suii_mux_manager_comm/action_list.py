@@ -3,6 +3,8 @@ from task_with_action import TaskWithAction
 from suii_protocol.task_protocol import TaskProtocol
 from suii_protocol.protocol.enum_task_action import TaskActionType
 
+## ===== ActionList ===== ##
+# Object to manage a list of TaskWithAction[]
 class ActionList():
     def __init__(self):
         self.task_list = []

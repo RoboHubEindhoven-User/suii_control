@@ -1,6 +1,8 @@
 from yaml import YAMLObject, SafeLoader
 import yaml
 
+### Objects for YAML Parsing ###
+
 ### ==== GEOMETRY DATA ==== ###
 class Pose(YAMLObject):
     yaml_loader = SafeLoader

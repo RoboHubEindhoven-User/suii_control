@@ -331,8 +331,8 @@ class TaskTransportOptimizer(object):
 
     def prioritize_task_list(self, sort_list):
         if self.verbose: rospy.loginfo("Prioritizing task list...")
-        sort_list.sort_by_src_and_dest() # may not be necessary since we're sorting by distances
-        # self.task_sorter.sort_list_by_distance_src_dest(sort_list)
+        # sort_list.sort_by_src_and_dest() # may not be necessary since we're sorting by distances
+        self.task_sorter.sort_list_by_distance_src_dest(sort_list)
 
     def add_task_to_capacity (self, holding_list):
         if not holding_list.is_full():

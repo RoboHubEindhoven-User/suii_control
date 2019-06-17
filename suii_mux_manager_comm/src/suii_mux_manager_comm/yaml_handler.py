@@ -2,6 +2,9 @@ from yaml_objects import *
 import yaml 
 import string
 
+## ===== YAMLReader ===== ##
+# Input: Path
+# Output: A parsed YAML Object
 class YAMLReader():
     @staticmethod
     def load(path):
@@ -14,6 +17,8 @@ class YAMLReader():
                 return None 
         return yaml_file 
 
+## ===== YAMLHandler ===== ##
+# Get specific data from YAML
 class YAMLHandler():
     def __init__(self, path=""):
         self.path = path

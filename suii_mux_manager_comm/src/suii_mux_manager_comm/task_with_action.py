@@ -3,6 +3,9 @@
 from task import Task
 from suii_protocol.task_protocol import TaskProtocol
 
+## ===== TaskWithAction ===== ##
+# Object to keep a MUX's command
+# So: a task with a specific action: DRIVE, PICK, Etc
 class TaskWithAction(Task):
     def __init__(self):
         Task.__init__(self)

@@ -3,6 +3,12 @@
 from suii_protocol.task_protocol import TaskProtocol
 from enum import Enum
 
+## ===== TaskStatus ===== ##
+# Enum to keep track of the status
+# Inactive == Not processed by TaskManager
+# Scheduled == Processed by TaskManager
+# Dispatched == Sent (or about to be sent) to MUX
+# Failed == Mux failed to do it
 class TaskStatus(Enum):
     INACTIVE = 1, 'INACTIVE'
     SCHEDULED = 2, 'SCHEDULED'
@@ -21,6 +27,8 @@ class TaskStatus(Enum):
     def __str__(self):
         return self.fullname
 
+## ===== Task ===== ##
+# Object to hold a task (from refbox)
 class Task:
     def __init__(self, t_type = -1, source = -1, destination = -1, container = -1, t_object = -1):
         self.type            = t_type
@@ -40,6 +48,7 @@ class Task:
 
     # Definition of can be picked (TaskList needs)
     def can_be_picked(self):
+        # If it's not processed by TaskManager, then it can be picked
         return self.status == int(TaskStatus.INACTIVE)
 
     def status_to_scheduled(self):

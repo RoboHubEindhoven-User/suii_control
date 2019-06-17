@@ -3,6 +3,8 @@
 from functools import cmp_to_key
 from task import Task
 
+## ===== TaskList ===== ##
+# Object to manage a list of Task[]
 class TaskList(object):
     DEFAULT_CAPACITY   = 20 
 
