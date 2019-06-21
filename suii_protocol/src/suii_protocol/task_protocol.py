@@ -4,6 +4,7 @@ from protocol.enum_location_identifier import LocationIdentifierType
 from protocol.enum_object_identifier import ObjectIdentifierType
 from protocol.enum_task_action import TaskActionType
 from protocol.enum_task_type import TaskType
+from protocol.enum_orientation import OrientationIdentifierType
 
 ## ===== TaskProtocol ===== ##
 # The protocol to look up IDs and strings
@@ -19,6 +20,8 @@ class TaskProtocol(object):
     # Make, for each location, 500 instance IDs, except the ones with ID's given in the list
     location_dict = DictBuilder.build_dict_with_instance_id(LocationIdentifierType, max_instance_id=500, 
         exception_lists=[int(LocationIdentifierType.EX), int(LocationIdentifierType.ROBOT), int(LocationIdentifierType.CB), int(LocationIdentifierType.PP), int(LocationIdentifierType.RT)])
+        
+    orientation_dict = DictBuilder.build_dict(OrientationIdentifierType)
 
     # Look up key in dictionary
     @staticmethod
@@ -47,6 +50,7 @@ class TaskProtocol(object):
     def print_protocol (dictionary):
         for key, value in dictionary.items():
             print("Key: '%s'; Value: '%s'" % (key, value))
-
+            
+# TaskProtocol.print_protocol(TaskProtocol.location_dict)
 # print('WP5: ', TaskProtocol.look_up_value(TaskProtocol.location_dict, 'Way Point 5'))
 # print('WP2: ', TaskProtocol.look_up_value(TaskProtocol.location_dict, 'Way Point 2'))

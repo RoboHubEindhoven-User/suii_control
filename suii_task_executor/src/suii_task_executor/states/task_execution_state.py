@@ -7,6 +7,7 @@ from suii_msgs.srv import ItemPick, ItemDrive, ItemFindhole, ItemPlace, Navigati
 from suii_protocol.task_protocol import TaskProtocol
 from suii_protocol.protocol.enum_task_action import TaskActionType
 from suii_protocol.protocol.enum_location_identifier import LocationIdentifierType
+from suii_protocol.protocol.enum_orientation import OrientationIdentifierType
 from geometry_msgs.msg import Pose
 
 from zinki_smachine import *
@@ -36,7 +37,33 @@ class TaskExecutionState(State):
         rospy.logerr('UH OH')
         # Propagate up to TaskSelect so it knows
         self.fsm.states[StateName.TASK_SELECT].error = True
-    
+
+    def get_orientation_arr_from_id(self, orientation_id):
+         # index of the data: orientation [w,x,y,z]  - position [x,y,z]
+        orientation = [0,0,0,0]
+        if (orientation_id == int(OrientationIdentifierType.NORTH)):
+            orientation[0] = 0
+            orientation[1] = 0
+            orientation[2] = -1
+            orientation[3] = 0
+        elif (orientation_id == int(OrientationIdentifierType.EAST)):
+            orientation[0] = -1
+            orientation[1] = 0
+            orientation[2] = 0
+            orientation[3] = 0
+        elif (orientation_id == int(OrientationIdentifierType.SOUTH)):
+            orientation[0] = 0
+            orientation[1] = -1
+            orientation[2] = 0
+            orientation[3] = 0
+        elif (orientation_id == int(OrientationIdentifierType.WEST)):
+            orientation[0] = 0
+            orientation[1] = 0
+            orientation[2] = 0
+            orientation[3] = -1
+        return orientation
+
+
     def format_nav_msg(self, orientation, position):
         msg = Pose()
         msg.orientation.w = orientation[0]
@@ -82,6 +109,8 @@ class TaskExecutionState(State):
 
             # index of the data: orientation [w,x,y,z]  - position [x,y,z]
             orientation, position = self.yaml_handler.get_pose_for(self.task.destination_str)
+            if (self.task.orientation != -1):
+                orientation = self.get_orientation_arr_from_id(self.task.orientation)
 
             if orientation != None and position != None:
                 status = NavigationGoalClient.call_serv(self.format_nav_msg(orientation, position))

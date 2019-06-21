@@ -15,8 +15,8 @@ class ObjectIdentifierType(Enum):
    AXIS=11, 'Axis'
    DISTANCE_TUBE=12, 'Distance Tube'
    MOTOR=13, 'Motor'
-   CONTAINER_B=14, 'A Container (Blue)'
-   CONTAINER_R=15, 'A Container (Red)'
+   CONTAINER_B=14, 'Blue Container'
+   CONTAINER_R=15, 'Red Container'
 
    def __new__(cls, value, name):
         member = object.__new__(cls)

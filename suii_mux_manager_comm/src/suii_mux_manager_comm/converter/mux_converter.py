@@ -14,6 +14,7 @@ class MuxConverter:
         task.set_source(ros_msg.source)
         task.set_destination(ros_msg.destination)
         task.set_object(ros_msg.object)
+        task.set_orientation(ros_msg.orientation)
         task.set_container(ros_msg.container)
         task.status = (ros_msg.status)
         task.error_code = ros_msg.error_code
@@ -32,6 +33,7 @@ class MuxConverter:
         ros_task.action = task.action
         ros_task.source = task.source
         ros_task.destination = task.destination
+        ros_task.orientation = task.orientation
         ros_task.object = task.object
         ros_task.container = task.container
         ros_task.status = status

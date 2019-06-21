@@ -30,17 +30,13 @@ class TaskStatus(Enum):
 ## ===== Task ===== ##
 # Object to hold a task (from refbox)
 class Task:
-    def __init__(self, t_type = -1, source = -1, destination = -1, container = -1, t_object = -1):
-        self.type            = t_type
-        self.type_str        = TaskProtocol.look_up_key(TaskProtocol.task_type_dict, self.type)
-        self.source          = source
-        self.source_str      = TaskProtocol.look_up_key(TaskProtocol.location_dict, self.source)
-        self.destination     = destination
-        self.destination_str = TaskProtocol.look_up_key(TaskProtocol.location_dict, self.destination)
-        self.object          = t_object
-        self.object_str      = TaskProtocol.look_up_key(TaskProtocol.object_dict, self.object)
-        self.container       = container
-        self.container_str   = TaskProtocol.look_up_key(TaskProtocol.container_dict, self.container)
+    def __init__(self, t_type = -1, source = -1, destination = -1, orientation = -1, container = -1, t_object = -1):
+        self.set_type(t_type)
+        self.set_source(source)
+        self.set_destination(destination)
+        self.set_orientation(orientation)
+        self.set_object(t_object)
+        self.set_container(container)
         self.source_dist     = -1
         self.dest_dist       = -1
         self.status          = int(TaskStatus.INACTIVE)
@@ -53,6 +49,10 @@ class Task:
 
     def status_to_scheduled(self):
         self.status = int(TaskStatus.SCHEDULED)
+
+    def set_orientation(self, orientation):
+        self.orientation     = orientation
+        self.orientation_str = TaskProtocol.look_up_key(TaskProtocol.orientation_dict, self.orientation)
 
     def set_source_dist(self, distance):
         self.source_dist = distance
@@ -87,6 +87,7 @@ class Task:
         temp.set_type(self.type)
         temp.set_source(self.source)
         temp.set_destination(self.destination)
+        temp.set_orientation(self.orientation)
         temp.set_object(self.object)
         temp.set_container(self.container)
         return temp
@@ -97,6 +98,7 @@ class Task:
     def __eq__(self, other): # override '==' operator
         return ((other.type == self.type) and (other.source == self.source) 
         and (other.destination == self.destination) 
+        and (other.orientation == self.orientation)
         and (other.object == self.object) 
         and (other.container == self.container))
 
@@ -108,6 +110,8 @@ class Task:
             retstr += "Source: " + self.source_str + "; "
         if self.destination_str != TaskProtocol.ERROR_STRING:
             retstr += "Destination: " + self.destination_str + "; "
+        if self.orientation_str != TaskProtocol.ERROR_STRING:
+            retstr += "Orientation: " + self.orientation_str + "; "
         if self.object_str != TaskProtocol.ERROR_STRING:
             retstr += "Object: " + self.object_str + "; "
         if self.container_str != TaskProtocol.ERROR_STRING:
@@ -117,4 +121,3 @@ class Task:
         if self.dest_dist != -1:
             retstr += "Dist. from dest: " + str(self.dest_dist) + "; "
         return retstr
-    

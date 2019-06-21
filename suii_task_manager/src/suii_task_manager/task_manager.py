@@ -13,6 +13,7 @@ from suii_protocol.task_protocol import TaskProtocol
 from suii_protocol.protocol.enum_task_action import TaskActionType
 from suii_protocol.protocol.enum_task_type import TaskType
 from suii_protocol.protocol.enum_location_identifier import LocationIdentifierType
+from suii_protocol.protocol.enum_orientation import OrientationIdentifierType
 from enum import Enum
 
 EXIT_KEY = TaskProtocol.look_up_value(TaskProtocol.location_dict, LocationIdentifierType.EX.fullname)
@@ -193,8 +194,17 @@ class DistanceToGoalClient:
 class TaskFormatter(object):
     @staticmethod
     def format_drive(dest, result):
-        TaskFormatter.format_move_to_drive(dest, result)
+        TaskFormatter.format_move_to_drive(result)
         TaskFormatter.format_actual_drive(dest, result)
+
+    @staticmethod
+    def format_drive_with_orientation(dest, orientation, result):
+        TaskFormatter.format_move_to_drive(result)
+        twa = TaskWithAction()
+        twa.set_destination(dest)
+        twa.set_orientation(orientation)
+        twa.set_action(int(TaskActionType.DRIVE))
+        result.append(twa)
 
     @staticmethod
     def format_actual_drive(dest, result):
@@ -208,6 +218,7 @@ class TaskFormatter(object):
         twa = TaskWithAction()
         # twa.copy_from_task(task)
         twa.set_object(task.object)
+        twa.set_container(task.container)
         twa.set_action(int(TaskActionType.PICK))
         result.append(twa)
     
@@ -216,6 +227,7 @@ class TaskFormatter(object):
         twa = TaskWithAction()
         # twa.copy_from_task(task)
         twa.set_object(task.object)
+        twa.set_container(task.container)
         twa.set_action(int(TaskActionType.PICK_FROM_ROBOT))
         result.append(twa)
 
@@ -224,6 +236,7 @@ class TaskFormatter(object):
         twa = TaskWithAction()
         # twa.copy_from_task(task)
         twa.set_object(task.object)
+        twa.set_container(task.container)
         twa.set_action(int(TaskActionType.PLACE))
         result.append(twa)
     
@@ -232,11 +245,12 @@ class TaskFormatter(object):
         twa = TaskWithAction()
         # twa.copy_from_task(task)
         twa.set_object(task.object)
+        twa.set_container(task.container)
         twa.set_action(int(TaskActionType.PLACE_TO_ROBOT))
         result.append(twa)
 
     @staticmethod
-    def format_move_to_drive(task, result):
+    def format_move_to_drive(result):
         twa = TaskWithAction()
         twa.set_action(int(TaskActionType.MOVE_TO_DRIVE))
         result.append(twa)
@@ -246,6 +260,7 @@ class TaskFormatter(object):
         twa = TaskWithAction()
         # twa.copy_from_task(task)
         twa.set_object(task.object)
+        twa.set_container(task.container)
         twa.set_action(int(TaskActionType.FIND_HOLE))
         result.append(twa)
 
@@ -460,7 +475,7 @@ class TaskNavigationOptimizer(object):
             rospy.logerr("Failed to sort by distance. Check 'get_distance' service.")
         if self.verbose: print(self.input_list)
         for item in self.input_list.task_list:
-            TaskFormatter.format_drive(item.destination, self.output_list.task_list)
+            TaskFormatter.format_drive_with_orientation(item.destination, item.orientation, self.output_list.task_list)
         TaskFormatter.format_drive(EXIT_KEY, self.output_list.task_list)  
         return True
 

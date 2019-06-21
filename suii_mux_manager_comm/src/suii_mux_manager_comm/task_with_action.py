@@ -20,6 +20,7 @@ class TaskWithAction(Task):
         self.set_type(task.type)
         self.set_source(task.source)
         self.set_destination(task.destination)
+        self.set_orientation(task.orientation)
         self.set_object(task.object)
         self.set_container(task.container)
     
@@ -31,6 +32,7 @@ class TaskWithAction(Task):
         temp.set_type(self.type)
         temp.set_source(self.source)
         temp.set_destination(self.destination)
+        temp.set_orientation(self.orientation)
         temp.set_object(self.object)
         temp.set_container(self.container)
         return temp

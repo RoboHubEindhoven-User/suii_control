@@ -9,7 +9,13 @@ class LocationIdentifierType(Enum):
    PP=5, 'Precision Platform'
    ROBOT=6, 'Robot'
    EX=100, 'Exit'
-   RT = 404, 'Rotating Table'      
+   RT = 404, 'Rotating Table'
+   
+   # Orientation #
+   NORTH = 25101, 'North'
+   EAST = 25102, 'East'
+   WEST = 25103, 'West'
+   SOUTH = 25104, 'South'
 
    def __new__(cls, value, name):
         member = object.__new__(cls)

@@ -1,5 +1,4 @@
 <launch>
-    <node pkg="suii_protocol" type="task_protocol.py" name="suii_protocol"></node>
     <node pkg="suii_task_manager" type="task_manager_handler.py"
           name="suii_task_manager" output="screen">
         

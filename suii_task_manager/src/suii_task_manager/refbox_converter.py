@@ -57,12 +57,14 @@ class RefBoxConverter:
             print("Please add to suii_protocol/protocol/enum_location_identifier")
             print("And specify if you want instance ids generated in suii_protocol/task_protocol.py")
             return None
+
         tmp_task = Task() 
         tmp_task.set_type (TaskProtocol.look_up_value(TaskProtocol.task_type_dict, TaskType.NAVIGATION.fullname)) 
         tmp_task.set_source(-1) 
         tmp_task.set_destination(destination)
         tmp_task.set_object(-1)
         tmp_task.set_container(-1)
+        tmp_task.set_orientation(task.navigation_task.orientation.data)
         return tmp_task
     
     @staticmethod
