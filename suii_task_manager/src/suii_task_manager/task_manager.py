@@ -464,6 +464,8 @@ class TaskNavigationOptimizer(object):
         TaskFormatter.format_drive(EXIT_KEY, self.output_list.task_list)  
         return True
 
+## =============== NOT RELEVANT FOR THIS VERSION ==================== ##
+
 ## ===== ErrorCase Enum ===== ##
 # To keep track of what went wrong this time
 class ErrorCase(Enum):

@@ -6,7 +6,9 @@
         <!-- verbose logging -->
         <param name="verbose" type="bool" value="true"></param>
 
+        <!-- Thierry's GUI YAML file -->
         <param name="yaml_path" value="$(find suii_protocol)/navigation_waypoints.yaml"></param>
+        
         <param name="waypoint_path" value="$(find suii_task_manager)/src/suii_task_manager/config/waypoints.yaml"/>
         <param name="coordinate_path" value="$(find suii_task_manager)/src/suii_task_manager/config/coordinate.yaml"/>
     </node>
