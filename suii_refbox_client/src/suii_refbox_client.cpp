@@ -1,17 +1,6 @@
-/************** Copyright (c) 2019, RoboHubEindhoven. All rights reserved **************
- * @Project     : suii_refbox_client
- * @file        : suii_refbox_client.cpp
- *
- * @brief       : This file implements the functionalities to cummunicate with the 
- *                robocup@work refbox central factory hub and the suii_task_manager.
- *
- * @author      : Thierry Zinkeng
- * Contact:     : thi.zinkeng@gmail.com
- *
- ***************************************************************************************/
 #include <suii_refbox_client/suii_refbox_client.hpp>
-#include <suii_refbox_client/refbox_config.h>
 #include <suii_refbox_client/atwork_action.h>
+#include "refbox_config.h"
 
 #include <inttypes.h>
 

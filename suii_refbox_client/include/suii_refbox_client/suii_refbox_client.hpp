@@ -1,15 +1,3 @@
-/************** Copyright (c) 2019, RoboHubEindhoven. All rights reserved **************
- * @Project     : suii_refbox_client
- * @file        : suii_refbox_client.hpp
- *
- * @brief       : This file defines the functionalities to cummunicate with the 
- *                robocup@work refbox central factory hub and the suii_task_manager.
- *
- * @author      : Thierry Zinkeng
- * Contact:     : thi.zinkeng@gmail.com
- *
- ***************************************************************************************/
-
 #define BOOST_DATE_TIME_POSIX_TIME_STD_CONFIG
 #include <ros/ros.h>
 #include <protobuf_comm/peer.h>
