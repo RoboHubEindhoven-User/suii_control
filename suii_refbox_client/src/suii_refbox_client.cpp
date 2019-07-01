@@ -151,14 +151,14 @@ void SuiiRefBoxClient::readParameters()
     // ros::param::param<int>("~team_port", team_port_, 4475);
 
     // real refbox
-    ros::param::param<int>("~public_port", public_port_, 5444);
-    ros::param::param<int>("~team_port", team_port_, 5468);
+    // ros::param::param<int>("~public_port", public_port_, 5444);
+    // ros::param::param<int>("~team_port", team_port_, 5468);
 
     // Paramters to use when ref box is running on same machine as client.
-    // ros::param::param<int>("~refbox_send_port", public_recv_port_ , 4444);
-    // ros::param::param<int>("~refbox_recv_port", public_send_port_, 4445);
-    // ros::param::param<int>("~team_send_port", team_send_port_, 4446);
-    // ros::param::param<int>("~team_recv_port", team_recv_port_, 4447);
+    ros::param::param<int>("~refbox_send_port", public_recv_port_ , 4444);
+    ros::param::param<int>("~refbox_recv_port", public_send_port_, 4445);
+    ros::param::param<int>("~team_send_port", team_send_port_, 4446);
+    ros::param::param<int>("~team_recv_port", team_recv_port_, 4447);
 
     ros::param::param<std::string>("~robot_name", robot_name_, "Suii");
     ros::param::param<std::string>("~team_name", team_name_, "RoboHub-Eindhoven");

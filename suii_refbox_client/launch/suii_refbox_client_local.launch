@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="suii_refbox_client" type="suii_refbox_client"
+          name="suii_refbox_client" output="screen">
+
+        <param name="remote_refbox" type="bool" value="false"/>
+        <param name="host_name" type="string" value="localhost"/>
+
+        <!-- refree box ports when it is running on same machine as client -->
+        <param name="refbox_send_port" type="int" value="4444"/>
+        <param name="refbox_recv_port" type="int" value="4445"/>
+        <param name="team_recv_port" type="int" value="4446"/>
+        <param name="team_send_port" type="int" value="4447"/>
+
+        <!-- robot name -->
+        <param name="robot_name" type="string" value="Suii"/>
+
+        <!-- team name specified in refbox configuration --> 
+        <param name="team_name" type="string" value="RoboHub-Eindhoven"/>
+    </node>
+</launch>
