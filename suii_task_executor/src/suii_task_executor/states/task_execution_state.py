@@ -92,15 +92,15 @@ class TaskExecutionState(State):
         elif (self.task.action == int(TaskActionType.PLACE)):
             rospy.loginfo('Action Type: Place')
             if (self.find_hole_success):
-                res =  ItemPlaceClient.call_serv(self.task.object, False, True)
+                res =  ItemPlaceClient.call_serv(self.task.object, False, True, self.task.container)
                 self.find_hole_success = False # Reset
             else:
-                res =  ItemPlaceClient.call_serv(self.task.object, False, False)
+                res =  ItemPlaceClient.call_serv(self.task.object, False, False, self.task.container)
             # if not success: self.error_handler()
         
         elif (self.task.action == int(TaskActionType.PLACE_TO_ROBOT)):
             rospy.loginfo('Action Type: Place to robot')
-            res =  ItemPlaceClient.call_serv(self.task.object, True, False)
+            res =  ItemPlaceClient.call_serv(self.task.object, True, False, 0)
             # if not success: self.error_handler()
 
         elif (self.task.action == int(TaskActionType.DRIVE)):
@@ -200,9 +200,9 @@ class ItemPickClient:
 
 class ItemPlaceClient:
     @staticmethod
-    def call_serv(itemID, onRobot, inHole):
+    def call_serv(itemID, onRobot, inHole, placePosition):
         # Test code
-        rospy.loginfo("Calling 'ItemPlace' with data: itemID = %d, onRobot = %r, inHole = %r" % (itemID, onRobot, inHole))
+        rospy.loginfo("Calling 'ItemPlace' with data: itemID = %d, onRobot = %r, inHole = %r, placePosition = %d" % (itemID, onRobot, inHole, placePosition))
         # data = ItemPlace()
         # data.itemID = itemID 
         # data.onRobot = onRobot
@@ -211,7 +211,7 @@ class ItemPlaceClient:
 
         try:
             proxy = rospy.ServiceProxy('ItemPlace', ItemPlace)
-            res = proxy(itemID, onRobot, inHole)
+            res = proxy(itemID, onRobot, inHole, placePosition)
             return res
         except rospy.ServiceException:
             rospy.logerr("Service call failed")
