@@ -1,9 +1,9 @@
 # Suii_control
-There are 4 main packages:
+This repository is a meta package that contain the packages for the high level control of the Suii's system. The main goal of this package is to plan, optimize and execute tasks in a sequential order. The four main packages in this meta package includes;
 * suii_protocol
 * suii_task_manager
 * suii_mux_manager_comm
-* suii_task_executor (otherwise known as: the Mux)
+* suii_task_executor
 
 # Package dependencies
 ![alt text](https://github.com/RoboHubEindhoven/suii_control/blob/master/package_dependencies.png)
