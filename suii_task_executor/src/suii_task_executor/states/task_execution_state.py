@@ -91,11 +91,14 @@ class TaskExecutionState(State):
         
         elif (self.task.action == int(TaskActionType.PLACE)):
             rospy.loginfo('Action Type: Place')
+            container = 0
+            if (self.task.container != -1):
+                container = self.task.container 
             if (self.find_hole_success):
-                res =  ItemPlaceClient.call_serv(self.task.object, False, True, self.task.container)
+                res =  ItemPlaceClient.call_serv(self.task.object, False, True, container)
                 self.find_hole_success = False # Reset
             else:
-                res =  ItemPlaceClient.call_serv(self.task.object, False, False, self.task.container)
+                res =  ItemPlaceClient.call_serv(self.task.object, False, False, container)
             # if not success: self.error_handler()
         
         elif (self.task.action == int(TaskActionType.PLACE_TO_ROBOT)):
