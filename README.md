@@ -15,21 +15,34 @@ In the wiki links bellow, you can find more in-depth information about this pack
 
 For this package, it is assumed that you have ubuntu 16.04 LTS with ROS Kinetic installed on your PC.
 
-## Prerequisites
+### Prerequisites
 
+This package requires the following packages to be installed:
 
+* [RoboCup@work refbox comm](https://github.com/industrial-robotics/atwork_refbox_comm): To install RoboCup@Work referee box. Click [here](https://github.com/industrial-robotics/atwork_central_factory_hub) For more info.
+* [robomis](https://github.com/RoboHubEindhoven/robomis): For mission overview and creating custom missions
+* [mission_planner_comm](https://github.com/RoboHubEindhoven/mission_planner_comm): To use custom mission data-types and messages
 
-## Usage
+The following packages could be installed:
 
-### Execute
+* [suii](https://github.com/RoboHubEindhoven/suii): If you want to perform an overall system test
 
+### Usage
 
-## Installing
+Enter the commands bellow on your Ubuntu terminal to run the following packages;
 
-## Running the tests
-
-
-
+* Suii Refbox Client package: 
+```
+roslaunch suii_refbox_client suii_refbox_client.launch
+```
+* Task Manager package: 
+```
+roslaunch suii_task_manager suii_task_manager.launch
+```
+* Task Executor package: 
+```
+roslaunch suii_task_executor suii_task_executor.launch
+```
 ## Authors
 
 **Thierry Zinkeng and Thanh** - *in the name of RoboHub Eindhoven* - [RoboHub Eindhoven website](https://robohub-eindhoven.nl/)
