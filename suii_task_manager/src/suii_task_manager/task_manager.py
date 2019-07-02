@@ -264,6 +264,14 @@ class TaskFormatter(object):
         twa.set_action(int(TaskActionType.FIND_HOLE))
         result.append(twa)
 
+    @staticmethod 
+    def format_find_container(task, result):
+        twa = TaskWithAction()
+        twa.set_object(task.container)
+        twa.set_action(int(TaskActionType.FIND_HOLE))
+        result.append(twa)
+
+
 ## ===== TaskSorter ===== ##
 # Sort list based on distances (and other things, later)
 # (This object makes service calls to update distances)
@@ -386,18 +394,22 @@ class TaskTransportOptimizer(object):
                         TaskFormatter.format_pick_task(task, self.output_list.task_list)
                         TaskFormatter.format_place_to_robot(task, self.output_list.task_list)
 
-    def drop_off_precision (self, drop_off_list):
-        for task in drop_off_list.task_list:
-            # Look for the hole
+    def drop_off_item (self, task, scan_precision=False, scan_container=False):
+        if (scan_precision):
             TaskFormatter.format_find_hole(task, self.output_list.task_list)
-            # Pick and place as usual
-            TaskFormatter.format_pick_from_robot(task, self.output_list.task_list)
-            TaskFormatter.format_place_task(task, self.output_list.task_list)
+        if (scan_container):
+            TaskFormatter.format_find_container(task, self.output_list.task_list)
+        TaskFormatter.format_pick_from_robot(task, self.output_list.task_list)
+        TaskFormatter.format_place_task(task, self.output_list.task_list)
 
-    def drop_off_normal (self, drop_off_list):   
+    def drop_off (self, drop_off_list):
         for task in drop_off_list.task_list:
-            TaskFormatter.format_pick_from_robot(task, self.output_list.task_list)
-            TaskFormatter.format_place_task(task, self.output_list.task_list) 
+            if (task.destination_str == LocationIdentifierType.PP.fullname):
+                self.drop_off_item (task, scan_precision=True, scan_container=False)
+            elif (task.container != -1):
+                self.drop_off_item (task, scan_precision=False, scan_container=True)
+            else:
+                self.drop_off_item (task, scan_precision=False, scan_container=False)
 
     def drop_off_at_destinations (self, task_list):
         unique_destinations = task_list.get_unique_destination()
@@ -410,10 +422,7 @@ class TaskTransportOptimizer(object):
                 drop_off_list = task_list.get_tasks_by_destination(key)   
                 # Schedule a drop off
                 # LocationIdentifierType.PP = Type of the precision platform
-                if (value == LocationIdentifierType.PP.fullname):
-                    self.drop_off_precision(drop_off_list)
-                else:
-                    self.drop_off_normal(drop_off_list)
+                self.drop_off (drop_off_list)
 
     def optimize(self):
         # Clear things
