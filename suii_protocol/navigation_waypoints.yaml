@@ -1,96 +1,240 @@
 waypoint/waypoint1:
-  id: 1
-  location:
-    type: 0
-    instance_id: 1
-    description: Workstation 3
   service_area:
     id: 0
-    length: 0
-    width: 0
     height: 0
     diameter: 0
     tilt_angle: 0
+    length: 0
+    width: 0
+  id: 1
+  should_scan: false
   pose:
     position:
-      x: 6.628047992910288
-      y: -6.154934777537087
+      x: 0.2383
+      y: -1.0176
       z: 0
     orientation:
       x: 0
       y: 0
-      z: -0.2918323883608984
-      w: 0.9564694752597042
-  should_scan: true
+      z: 0.9917
+      w: 0.1285
+  location:
+    description: Entrance
+    instance_id: 1
+    type: 0
 waypoint/waypoint2:
+  location:
+    description: Workstation 1
+    type: 2
+    instance_id: 1
+  service_area:
+    width: 0
+    height: 0
+    tilt_angle: 0
+    length: 0
+    id: 0
+    diameter: 0
+  should_scan: false
   id: 2
+  pose:
+    position:
+      y: 1.0176
+      z: 0
+      x: 1
+    orientation:
+      x: 0
+      y: 0
+      z: 0.9917
+      w: 0.1285
+waypoint/waypoint3:
   location:
     type: 2
+    description: Workstation 2
+    instance_id: 2
+  service_area:
+    diameter: 0
+    height: 0
+    width: 0
+    length: 0
+    id: 0
+    tilt_angle: 0
+  id: 3
+  should_scan: false
+  pose:
+    position:
+      y: -1.0176
+      x: 0.2383
+      z: 0
+    orientation:
+      x: 0
+      w: 0.1285
+      y: 0
+      z: 0.9917
+waypoint/waypoint4:
+  id: 4
+  pose:
+    orientation:
+      y: 1
+      w: 1
+      x: 1
+      z: 0.9917
+    position:
+      y: 1
+      x: 1
+      z: 0
+  service_area:
+    tilt_angle: 0
+    diameter: 0
+    height: 15
+    id: 0
+    width: 0
+    length: 0
+  location:
+    description: Workstation 5
     instance_id: 3
-    description: Way Point 15
+    type: 2
+  should_scan: false
+waypoint/waypoint5:
+  location:
+    type: 2
+    instance_id: 4
+    description: Workstation 6
+  service_area:
+    length: 0
+    height: 5
+    diameter: 0
+    id: 0
+    tilt_angle: 0
+    width: 0
+  pose:
+    orientation:
+      y: 2
+      w: 2
+      x: 0
+      z: 0.9917
+    position:
+      z: 0
+      x: 2
+      y: 2
+  should_scan: false
+  id: 5
+waypoint/waypoint6:
+  should_scan: false
+  pose:
+    orientation:
+      x: 0
+      z: 0.9917
+      y: 0
+      w: 0.1285
+    position:
+      x: 0.2383
+      z: 0
+      y: -1.0176
+  location:
+    type: 4
+    description: Way Point 1
+    instance_id: 1
+  id: 6
   service_area:
     id: 0
     length: 0
-    width: 0
-    height: 5
     diameter: 0
+    height: 0
     tilt_angle: 0
-  pose:
-    position:
-      x: 7.465404919299965
-      y: -5.211653107869013
-      z: 0
-    orientation:
-      x: 0
-      y: 0
-      z: 0.9498632734492434
-      w: 0.3126655749395638
-  should_scan: true
-waypoint/waypoint3:
-  id: 3
+    width: 0
+waypoint/waypoint7:
   location:
-    type: 2
     instance_id: 2
+    type: 4
+    description: Way Point 2
+  pose:
+    orientation:
+      w: 0.1285
+      z: 0.9917
+      y: 0
+      x: 0
+    position:
+      y: -1.0176
+      x: 0.2383
+      z: 0
+  service_area:
+    id: 0
+    tilt_angle: 0
+    width: 0
+    length: 0
+    diameter: 0
+    height: 0
+  id: 7
+  should_scan: false
+waypoint/waypoint8:
+  location:
+    instance_id: 3
+    type: 4
     description: Way Point 3
   service_area:
     id: 0
-    length: 0
     width: 0
-    height: 5
-    diameter: 0
+    length: 0
+    height: 0
     tilt_angle: 0
+    diameter: 0
   pose:
     position:
-      x: 10.19763893249952
-      y: -4.532667798402109
+      x: 0.2383
+      y: -1.0176
       z: 0
     orientation:
       x: 0
       y: 0
-      z: -0.01586066084486942
-      w: 0.9998742118074473
-  should_scan: true
-waypoint/waypoint4:
-  id: 4
-  location:
-    type: 100
-    instance_id: 1
-    description: Exit
+      z: 0.9917
+      w: 0.1285
+  should_scan: false
+  id: 8
+waypoint/waypoint9:
+  id: 9
   service_area:
-    id: 0
     length: 0
+    id: 0
+    tilt_angle: 0
+    diameter: 0
     width: 0
     height: 0
-    diameter: 0
-    tilt_angle: 0
   pose:
-    position:
-      x: 6.62754400036924
-      y: -6.823139116001762
-      z: 0
     orientation:
+      y: 0
+      z: 0.9917
+      x: 0
+      w: 0.1285
+    position:
+      x: 0.2383
+      y: -1.0176
+      z: 0
+  location:
+    instance_id: 4
+    description: Way Point 4
+    type: 4
+  should_scan: false
+waypoint/waypoint10:
+  location:
+    description: Exit
+    type: 100
+    instance_id: 1
+  pose:
+    orientation:
+      w: 0.1285
+      z: 0.9917
       x: 0
       y: 0
-      z: -0.01369462234622873
-      w: 0.9999062242624526
-  should_scan: true
+    position:
+      x: 0.2383
+      y: -1.0176
+      z: 0
+  id: 10
+  should_scan: false
+  service_area:
+    width: 0
+    id: 0
+    length: 0
+    tilt_angle: 0
+    height: 0
+    diameter: 0
