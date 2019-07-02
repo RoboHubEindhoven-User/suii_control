@@ -1,6 +1,7 @@
 #include <suii_refbox_client/suii_refbox_client.hpp>
 #include <suii_refbox_client/atwork_action.h>
 #include "refbox_config.h"
+#include "std_msgs/Empty.h"
 
 #include <inttypes.h>
 
@@ -19,6 +20,8 @@ SuiiRefBoxClient::SuiiRefBoxClient(const ros::NodeHandle &nh):
     inventory_pub = nh_.advertise<atwork_ros_msgs::Inventory>("inventory", 10);
 
     task_info_pub_ = nh_.advertise<atwork_ros_msgs::TaskInfo>("task_info", 10);
+
+    stop_pressed_pub_ = nh_.advertise<std_msgs::Empty> ("stop_pressed", 10);
 
     // atwork_action_pub =  nh_.advertise<>("atwork_action_info", 10);
 
@@ -151,8 +154,8 @@ void SuiiRefBoxClient::readParameters()
     // ros::param::param<int>("~team_port", team_port_, 4475);
 
     // real refbox
-    // ros::param::param<int>("~public_port", public_port_, 5444);
-    // ros::param::param<int>("~team_port", team_port_, 5468);
+    ros::param::param<int>("~public_port", public_port_, 5444);
+    ros::param::param<int>("~team_port", team_port_, 5468);
 
     // Paramters to use when ref box is running on same machine as client.
     ros::param::param<int>("~refbox_send_port", public_recv_port_ , 4444);
@@ -301,6 +304,14 @@ void SuiiRefBoxClient::handleMessage(boost::asio::ip::udp::endpoint &sender,
         }
 
         benchmark_state_pub_.publish(benchmark_state_msg);
+
+        if (benchmark_state_msg.state.data == 3 && !stop_pressed){
+            stop_pressed = true;
+            std_msgs::Empty flag;
+            stop_pressed_pub_.publish(flag);
+        } else if (benchmark_state_msg.state.data == 1) {
+            stop_pressed = false;
+        }
 
     } else if ((conveyor_belt_status_ptr = std::dynamic_pointer_cast<TriggeredConveyorBeltStatus>(msg))) {
         atwork_ros_msgs::TriggeredConveyorBeltStatus conveyor_belt_status_msg;

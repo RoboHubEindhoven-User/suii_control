@@ -165,6 +165,11 @@ class SuiiRefBoxClient
 
         ros::Publisher atwork_action_pub;
 
+        ros::Publisher stop_pressed_pub_;
+
+        bool stop_pressed = false;
+
+
         /**
          * Subscribers
          */
