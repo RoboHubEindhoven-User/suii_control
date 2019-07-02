@@ -7,6 +7,7 @@
 __author__      = "Thanh, Thierry Zinkeng"
 
 import rospy
+from std_msgs.msg import Empty
 from suii_msgs.msg import SuiiTask, SuiiTaskList
 
 from atwork_ros_msgs.msg._TriggeredConveyorBeltStatus import *
@@ -27,6 +28,7 @@ class TaskMangerHandler():
         # Save params
         self.verbose = rospy.get_param('~verbose')
         self.yaml_path = rospy.get_param('~yaml_path')
+        self.mux_occupied = False
 
         # Loggity log
         rospy.loginfo("Initializing Task Manager Node...")
@@ -39,6 +41,7 @@ class TaskMangerHandler():
         # rospy.Subscriber("/suii_refbox_client/conveyor_belt_status", TriggeredConveyorBeltStatus, self.conveyor_callback)
         # fro receiving ROS tasks from the refbox client
         rospy.Subscriber("/suii_refbox_client/task_info", TaskInfo, self.task_callback)
+        rospy.Subscriber("/suii_refbox_client/stop_pressed", Empty, self.stop_pressed_callback)
 
         # The things
         self.task_manager  = TaskManager(holding_capacity=3, yaml_path=self.yaml_path, verbose=self.verbose)
@@ -48,12 +51,18 @@ class TaskMangerHandler():
 
         rospy.loginfo("Task Manager node initialized!")
 
+    def stop_pressed_callback(self, msg):
+        rospy.loginfo("Stop pressed on refbox. Ready for new task list.")
+        self.mux_occupied = False
+
     def task_callback(self, msg):
-        rospy.loginfo("Tasks received. Converting to TaskObject...")
-        self.task_manager.clear()                       # Clear shit
-        self.task_cb_convert_data(msg)                  # Convert ros msg to TaskList()
-        self.task_cb_optimize()                         # Send said TaskList() to TM
-        self.send_to_mux(self.task_manager.output_list) # Send TM's ActionList() to Mux
+        if not self.mux_occupied:
+            rospy.loginfo("Tasks received. Converting to TaskObject...")
+            self.mux_occupied = True
+            self.task_manager.clear()                       # Clear shit
+            self.task_cb_convert_data(msg)                  # Convert ros msg to TaskList()
+            self.task_cb_optimize()                         # Send said TaskList() to TM
+            self.send_to_mux(self.task_manager.output_list) # Send TM's ActionList() to Mux
 
     def replan_callback(self, msg):
         rospy.loginfo("Received replan data. Converting...")
