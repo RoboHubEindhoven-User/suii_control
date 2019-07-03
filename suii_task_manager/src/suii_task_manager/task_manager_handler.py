@@ -76,12 +76,21 @@ class TaskMangerHandler():
         else:
             rospy.logfatal("TM cannot handle this error.")
 
+    def task_cb_filter_data(self, converted_list):
+        rospy.loginfo("Skipping tasks with 'Shelf' in source or destination...")
+        result = converted_list.make_duplicate()
+        for task in converted_list.task_list:
+            if ('Shelf' in task.destination_str or 'Shelf' in task.source_str):
+                result.task_list.remove(task)
+        return result 
+
     def task_cb_convert_data(self, msg):
         converted_list = RefBoxConverter.ros_msg_to_task_list_object(msg)
         if converted_list is None:
             rospy.logerr("Cannot convert ROS msg to task list")
         else:
             rospy.loginfo("Converted to task list:")
+            converted_list = self.task_cb_filter_data(converted_list)
             self.task_manager.initialize_list(converted_list)
             rospy.loginfo("##################")
             print(self.task_manager.task_list)
