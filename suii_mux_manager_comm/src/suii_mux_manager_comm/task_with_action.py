@@ -44,4 +44,4 @@ class TaskWithAction(Task):
             return Task.__eq__(self, other)
     
     def __repr__(self):
-        return "<<'%s'>> %s" % (self.action_str, Task.__repr__(self))
+        return "[%s] \n     %s" % (self.action_str, Task.__repr__(self))

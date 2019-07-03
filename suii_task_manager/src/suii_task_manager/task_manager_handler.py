@@ -89,11 +89,15 @@ class TaskMangerHandler():
         if converted_list is None:
             rospy.logerr("Cannot convert ROS msg to task list")
         else:
-            rospy.loginfo("Converted to task list:")
+            # rospy.loginfo("Converted to task list:")
+            # rospy.loginfo(converted_list)
+            # rospy.loginfo("##################")
             converted_list = self.task_cb_filter_data(converted_list)
             self.task_manager.initialize_list(converted_list)
-            rospy.loginfo("##################")
+            # rospy.loginfo("##################")
+            print('----------------------------------------------------------------------------')
             print(self.task_manager.task_list)
+            print('----------------------------------------------------------------------------')
     
     def task_cb_optimize(self):
         optimize_ok = self.task_manager.optimize_list()
@@ -102,9 +106,10 @@ class TaskMangerHandler():
         else:
             rospy.logerr("Failed to optimize")
 
-        rospy.loginfo("Final task list:")
-        rospy.loginfo("##################")
+        rospy.loginfo("Final commands list:")
+        print('----------------------------------------------------------------------------')
         print(self.task_manager.output_list)
+        print('----------------------------------------------------------------------------')
 
     def send_to_mux(self, result):
         if (len(result.task_list) != 0):

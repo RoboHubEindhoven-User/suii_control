@@ -430,7 +430,11 @@ class TaskTransportOptimizer(object):
         holding_list_ok = False
 
         self.prioritize_task_list(self.input_list)
-        if self.verbose: print(self.input_list)
+        
+        if self.verbose: 
+            print('----------------------------------------------------------------------------')
+            print(self.input_list)
+            print('----------------------------------------------------------------------------')
 
         # While there is still tasks to schedule
         while not self.input_list.is_empty():
@@ -482,7 +486,10 @@ class TaskNavigationOptimizer(object):
     def optimize(self):
         if not self.prioritize_task_list(self.input_list):
             rospy.logerr("Failed to sort by distance. Check 'get_distance' service.")
-        if self.verbose: print(self.input_list)
+        if self.verbose: 
+            print('----------------------------------------------------------------------------')
+            print(self.input_list)
+            print('----------------------------------------------------------------------------')
         for item in self.input_list.task_list:
             TaskFormatter.format_drive_with_orientation(item.destination, item.orientation, self.output_list.task_list)
         TaskFormatter.format_drive(EXIT_KEY, self.output_list.task_list)  
