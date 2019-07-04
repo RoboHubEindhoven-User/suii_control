@@ -24,7 +24,7 @@ waypoint/waypoint1:
     type: 0
 waypoint/waypoint2:
   location:
-    description: Workstation 1
+    description: Workstation 3
     type: 2
     instance_id: 1
   service_area:
@@ -38,7 +38,7 @@ waypoint/waypoint2:
   id: 2
   pose:
     position:
-      y: 1.0176
+      y: 3
       z: 0
       x: 1
     orientation:
@@ -63,7 +63,7 @@ waypoint/waypoint3:
   pose:
     position:
       y: -1.0176
-      x: 0.2383
+      x: 2
       z: 0
     orientation:
       x: 0
@@ -80,7 +80,7 @@ waypoint/waypoint4:
       z: 0.9917
     position:
       y: 1
-      x: 1
+      x: 5
       z: 0
   service_area:
     tilt_angle: 0
@@ -108,13 +108,13 @@ waypoint/waypoint5:
     width: 0
   pose:
     orientation:
-      y: 2
+      y: 6
       w: 2
       x: 0
       z: 0.9917
     position:
       z: 0
-      x: 2
+      x: 6
       y: 2
   should_scan: false
   id: 5
@@ -122,17 +122,17 @@ waypoint/waypoint6:
   should_scan: false
   pose:
     orientation:
-      x: 0
+      x: 1
       z: 0.9917
       y: 0
       w: 0.1285
     position:
-      x: 0.2383
+      x: 1
       z: 0
       y: -1.0176
   location:
     type: 4
-    description: Way Point 1
+    description: Shelf 1
     instance_id: 1
   id: 6
   service_area:
@@ -146,7 +146,7 @@ waypoint/waypoint7:
   location:
     instance_id: 2
     type: 4
-    description: Way Point 2
+    description: Rotating Table
   pose:
     orientation:
       w: 0.1285
@@ -211,7 +211,7 @@ waypoint/waypoint9:
       z: 0
   location:
     instance_id: 4
-    description: Way Point 4
+    description: Precision Platform
     type: 4
   should_scan: false
 waypoint/waypoint10:
@@ -226,7 +226,7 @@ waypoint/waypoint10:
       x: 0
       y: 0
     position:
-      x: 0.2383
+      x: -10
       y: -1.0176
       z: 0
   id: 10
